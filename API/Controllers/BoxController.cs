@@ -16,7 +16,7 @@ public class BoxController : Controller
     }
 
     [HttpGet]
-    [Route("api/getAllBoxes")]
+    [Route("/getAllBoxes")]
     public IEnumerator<string> getAllBoxes()
     {
         //TODO Make this Method and change return type
@@ -24,7 +24,7 @@ public class BoxController : Controller
     }
 
     [HttpGet]
-    [Route("api/box/{boxId}")]
+    [Route("/box/{boxId}")]
     public String getBoxByID([FromRoute] int boxID)
     {
         //TODO Make this Method and change return type
