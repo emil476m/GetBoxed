@@ -47,14 +47,7 @@ Best regards, Alex
         }
         catch (Exception e)
         {
-            throw new Exception($@"
-🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨
-Your connection string is found, but could not be used. Are you sure you correctly inserted
-the connection-string to Postgres?
-
-Best regards, Alex
-(Below is the inner exception)
-🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨", e);
+            throw new Exception($@"Connection string not found", e);
         }
     }
     
