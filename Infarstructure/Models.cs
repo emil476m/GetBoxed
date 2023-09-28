@@ -11,6 +11,7 @@ public class BoxFeed
     public string name { get; set; }
     public string size { get; set; }
     public float price { get; set; }
+    public string boxImgUrl { get; set; }
 }
 
 public class Box
@@ -20,4 +21,5 @@ public class Box
     public string size { get; set; }
     public string description { get; set; }
     public float price { get; set; }
+    public string boxImgUrl { get; set; }
 }
