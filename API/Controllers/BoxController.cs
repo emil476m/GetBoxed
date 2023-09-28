@@ -16,8 +16,8 @@ public class BoxController : Controller
     }
 
     [HttpGet]
-    [Route("/getAllBoxes")]
-    public IEnumerator<string> getAllBoxes()
+    [Route("/box")]
+    public IEnumerator<string> GetAllBoxes()
     {
         //TODO Make this Method and change return type
         return null;
@@ -25,10 +25,42 @@ public class BoxController : Controller
 
     [HttpGet]
     [Route("/box/{boxId}")]
-    public String getBoxByID([FromRoute] int boxID)
+    public String GetBoxById([FromRoute] int boxID)
     {
         //TODO Make this Method and change return type
         return "Box" + boxID;
+    }
+
+    [HttpGet]
+    [Route("/box/price/{boxId}")]
+    public float GetBoxPrice([FromRoute] int boxId)
+    {
+        //TODO implment this
+        return 0;
+    }
+
+    [HttpPost]
+    [Route("/box")]
+    public string CreateBox([FromBody] string Box)
+    {
+        //Todo change type to Be when BE is made
+        return Box;
+    }
+
+    [HttpPut]
+    [Route("/box/{boxId}")]
+    public string UpdateBox(string box)
+    {
+        //Todo change type to Be when BE is made
+        return box;
+    }
+
+    [HttpDelete]
+    [Route("/box/{boxId}")]
+    public bool DeleteBox([FromRoute] int boxId)
+    {
+        //Todo implement
+        return false;
     }
     
 }
