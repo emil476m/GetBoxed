@@ -3,8 +3,8 @@ using Infarstructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-/*builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
-    dataSourceBuilder => dataSourceBuilder.EnableParameterLogging()); */
+builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
+    dataSourceBuilder => dataSourceBuilder.EnableParameterLogging()); 
 builder.Services.AddSingleton<Repository>();
 builder.Services.AddSingleton<Service.Service>();
 builder.Services.AddControllers();
