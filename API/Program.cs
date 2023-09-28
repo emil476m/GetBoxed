@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 /*builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
     dataSourceBuilder => dataSourceBuilder.EnableParameterLogging()); */
-builder.Services.AddSingleton<Reposetory>();
+builder.Services.AddSingleton<Repository>();
 builder.Services.AddSingleton<Service.Service>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

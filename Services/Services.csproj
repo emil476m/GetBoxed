@@ -7,4 +7,8 @@
         <RootNamespace>Service</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Infarstructure\Infarstructure.csproj" />
+    </ItemGroup>
+
 </Project>

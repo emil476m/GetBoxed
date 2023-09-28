@@ -16,10 +16,19 @@ public class HomeController : Controller
     }
 
     [HttpGet]
+    [Route("api/getAllBoxes")]
     public IEnumerator<string> getAllBoxes()
     {
-        //TODO Make this Method
+        //TODO Make this Method and change return type
         return null;
+    }
+
+    [HttpGet]
+    [Route("api/box/{boxId}")]
+    public String getBoxByID([FromRoute] int boxID)
+    {
+        //TODO Make this Method and change return type
+        return "Box" + boxID;
     }
 
   
