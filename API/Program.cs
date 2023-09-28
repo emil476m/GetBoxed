@@ -1,29 +1,49 @@
+using Infarstructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+/*builder.Services.AddNpgsqlDataSource(Utilities.ProperlyFormattedConnectionString,
+    dataSourceBuilder => dataSourceBuilder.EnableParameterLogging()); */
+builder.Services.AddSingleton<Reposetory>();
+builder.Services.AddSingleton<Service.Service>();
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-builder.Services.AddEndpointsApiExplorer();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
+//app.UseHttpsRedirection();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseCors(options =>
 
-app.UseRouting();
+{
 
-app.UseAuthorization();
+    options.SetIsOriginAllowed(origin => true)
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+        .AllowAnyMethod()
+
+        .AllowAnyHeader()
+
+        .AllowCredentials();
+
+});
+
+//app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();

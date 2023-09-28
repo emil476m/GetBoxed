@@ -4,28 +4,23 @@ using API.Models;
 
 namespace API.Controllers;
 
+[Route("api/[controller]")]
+[ApiController]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly Service.Service _service;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(Service.Service service)
     {
-        _logger = logger;
+        _service = service;
     }
 
-    public IActionResult Index()
+    [HttpGet]
+    public IEnumerator<string> getAllBoxes()
     {
-        return View();
+        //TODO Make this Method
+        return null;
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+  
 }
