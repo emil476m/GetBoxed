@@ -27,23 +27,20 @@ public class BoxController : Controller
     [Route("/box/{boxId}")]
     public Box GetBoxById([FromRoute] int boxID)
     {
-        //TODO Make this Method and change return type
-        return null;
+        return _service.GetBOxById(boxID);
     }
 
     [HttpGet]
     [Route("/box/price/{boxId}")]
     public float GetBoxPrice([FromRoute] int boxId)
     {
-        //TODO implment this
-        return -1;
+        return _service.GetPriceOfBox(boxId);
     }
 
     [HttpPost]
     [Route("/box")]
     public Box CreateBox([FromBody] Box box)
     {
-        //Todo change type to Be when BE is made
         return _service.CreateBox(box.name,box.size,box.description,box.price,box.boxImgUrl);
     }
 
@@ -51,8 +48,7 @@ public class BoxController : Controller
     [Route("/box/{boxId}")]
     public Box UpdateBox(Box box, [FromRoute] int boxId)
     {
-        //Todo change type to Be when BE is made
-        return box;
+        return _service.UpdateBox(boxId,box);
     }
 
     [HttpDelete]
