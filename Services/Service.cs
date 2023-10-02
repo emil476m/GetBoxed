@@ -56,6 +56,21 @@ public class Service
             throw new Exception("Could not get the price of this Box");
         }
     }
+    
+    public IEnumerable<BoxFeed> SearchForBoxes(string searchTerm, int amount)
+    {
+        try
+        {
+            return _repository.Search(searchTerm, amount);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("An Error acoured while searching for Boxes");
+        }
+    }
 
     public Box CreateBox(string name, string size, string description, float price, string boxImgUrl)
     {
@@ -102,5 +117,4 @@ public class Service
             throw new Exception("Could not delete this Box");
         }
     }
-    
 }

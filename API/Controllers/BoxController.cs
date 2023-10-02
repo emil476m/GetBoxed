@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using API.Models;
@@ -35,6 +36,13 @@ public class BoxController : Controller
     public float GetBoxPrice([FromRoute] int boxId)
     {
         return _service.GetPriceOfBox(boxId);
+    }
+    
+    [HttpGet]
+    [Route("/box/Seartch")]
+    public IEnumerable<BoxFeed> SearchArticle([FromQuery][MinLength(3)]String searchTerm, [FromQuery][Range(0,int.MaxValue)]int amount)
+    {
+        return _service.SearchForBoxes(searchTerm, amount);
     }
 
     [HttpPost]
