@@ -43,7 +43,7 @@ public class Repository
         }
     }
 
-    public object DeleteBox(int boxId)
+    public bool DeleteBox(int boxId)
     {
         var sql =  $@"DELETE FROM box WHERE boxid = (@boxId);";
         
