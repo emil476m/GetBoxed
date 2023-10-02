@@ -27,9 +27,29 @@ public class Repository
             return conn.QueryFirst<Box>(sql, new {name, size, description, price, boxImgUrl});
         }
     }
-
-    public void DeleteBox(int boxId)
+    
+    public IEnumerable<BoxFeed> GetBoxFeed()
     {
+        var sql = $@"SELECT 
+        boxid as {nameof(BoxFeed.boxId)}, 
+        name as {nameof(BoxFeed.name)},
+        size as {nameof(BoxFeed.size)}, 
+        price as {nameof(BoxFeed.price)}, 
+        boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM box";
         
+        using(var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<BoxFeed>(sql);
+        }
+    }
+
+    public object DeleteBox(int boxId)
+    {
+        var sql =  $@"DELETE FROM box WHERE boxid = (@boxId);";
+        
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Execute(sql, new {boxId}) == 1;
+        }
     }
 }
