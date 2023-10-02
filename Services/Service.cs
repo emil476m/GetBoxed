@@ -59,12 +59,11 @@ public class Service
         }
     }
     
-    public IEnumerable<Box> SearchForBoxes(string searchTerm, int amount)
+    public IEnumerable<BoxFeed> SearchForBoxes(string searchTerm, int amount)
     {
         try
         {
-            throw new NotImplementedException();
-            //return _repository.Search(searchTerm, amount);
+            return _repository.Search(searchTerm, amount);
         }
         catch (Exception e)
         {

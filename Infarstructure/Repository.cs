@@ -52,4 +52,24 @@ public class Repository
             return conn.Execute(sql, new {boxId}) == 1;
         }
     }
+
+    public IEnumerable<BoxFeed> Search(string searchTerm, int amount)
+    {
+        var sql = $@"
+            SELECT 
+            boxid as {nameof(BoxFeed.boxId)}, 
+            name as {nameof(BoxFeed.name)},
+            size as {nameof(BoxFeed.size)}, 
+            price as {nameof(BoxFeed.price)}, 
+            boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM getboxed.box
+            
+            WHERE name LIKE @searchTerm
+            LIMIT @amount
+            ;";
+        
+        using(var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<BoxFeed>(sql, new {searchTerm = "%"+searchTerm+"%", amount});
+        }
+    }
 }
