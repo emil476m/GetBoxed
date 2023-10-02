@@ -19,10 +19,43 @@ public class Service
         }
         catch (Exception e)
         {
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(e);
             Console.ResetColor();
             throw new Exception("Could not get the Box feed");
+        }
+    }
+    
+    public Box GetBOxById(int boxId)
+    {
+        try
+        {
+            //TODO Implement this
+            return null;
+            //return _repository.getBoxByID(boxId);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("Could not Find This Specific box");
+        }
+    }
+    
+    public float GetPriceOfBox(int boxId)
+    {
+        try
+        {
+            throw new NotImplementedException();
+            //return _repository.GetBoxPrice(boxId);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("Could not get the price of this Box");
         }
     }
 
@@ -34,10 +67,26 @@ public class Service
         }
         catch (Exception e)
         {
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(e);
             Console.ResetColor();
             throw new Exception("Could not create this Box");
+        }
+    }
+    
+    public Box UpdateBox(int boxId, Box box)
+    {
+        try
+        {
+            throw new NotImplementedException();
+            //return _repository.UpdateBox(boxId,box);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("Could not update Box");
         }
     }
 
@@ -49,10 +98,10 @@ public class Service
         }
         catch (Exception e)
         {
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(e);
             Console.ResetColor();
-            throw new Exception("Could not create this Box");
+            throw new Exception("Could not delete this Box");
         }
     }
 }
