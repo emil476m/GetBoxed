@@ -14,7 +14,7 @@ public class Repository
     
     public Box CreateBox(string name, string size, string description, float price, string boxImgUrl)
     {
-        var sql = $@"INSERT INTO GB.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl) RETURNING 
+        var sql = $@"INSERT INTO getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl) RETURNING 
         boxid as {nameof(Box.boxId)}, 
         name as {nameof(Box.name)},
         size as {nameof(Box.size)}, 
@@ -35,7 +35,7 @@ public class Repository
         name as {nameof(BoxFeed.name)},
         size as {nameof(BoxFeed.size)}, 
         price as {nameof(BoxFeed.price)}, 
-        boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM GB.box";
+        boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM getboxed.box";
         
         using(var conn = _dataSource.OpenConnection())
         {
@@ -45,13 +45,11 @@ public class Repository
 
     public bool DeleteBox(int boxId)
     {
-        var sql =  $@"DELETE FROM GB.box WHERE boxid = (@boxId);";
+        var sql =  $@"DELETE FROM getboxed.box WHERE boxid = (@boxId);";
         
         using (var conn = _dataSource.OpenConnection())
         {
             return conn.Execute(sql, new {boxId}) == 1;
         }
     }
-    
-    
 }
