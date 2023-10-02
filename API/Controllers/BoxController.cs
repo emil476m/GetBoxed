@@ -25,9 +25,9 @@ public class BoxController : Controller
 
     [HttpGet]
     [Route("/box/{boxId}")]
-    public Box GetBoxById([FromRoute] int boxID)
+    public Box GetBoxById([FromRoute] int boxId)
     {
-        return _service.GetBOxById(boxID);
+        return _service.GetBoxById(boxId);
     }
 
     [HttpGet]
