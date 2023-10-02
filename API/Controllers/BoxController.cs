@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using API.Models;
+using Infarstructure;
 
 namespace API.Controllers;
 
@@ -17,18 +18,17 @@ public class BoxController : Controller
 
     [HttpGet]
     [Route("/box")]
-    public IEnumerator<string> GetAllBoxes()
+    public IEnumerable<BoxFeed> GetAllBoxes()
     {
-        //TODO Make this Method and change return type
-        return null;
+        return _service.getBoxFeed();
     }
 
     [HttpGet]
     [Route("/box/{boxId}")]
-    public String GetBoxById([FromRoute] int boxID)
+    public Box GetBoxById([FromRoute] int boxID)
     {
         //TODO Make this Method and change return type
-        return "Box" + boxID;
+        return null;
     }
 
     [HttpGet]
@@ -36,20 +36,20 @@ public class BoxController : Controller
     public float GetBoxPrice([FromRoute] int boxId)
     {
         //TODO implment this
-        return 0;
+        return -1;
     }
 
     [HttpPost]
     [Route("/box")]
-    public string CreateBox([FromBody] string Box)
+    public Box CreateBox([FromBody] Box box)
     {
         //Todo change type to Be when BE is made
-        return Box;
+        return _service.CreateBox(box.name,box.size,box.description,box.price,box.boxImgUrl);
     }
 
     [HttpPut]
     [Route("/box/{boxId}")]
-    public string UpdateBox(string box)
+    public Box UpdateBox(Box box, [FromRoute] int boxId)
     {
         //Todo change type to Be when BE is made
         return box;
@@ -59,8 +59,7 @@ public class BoxController : Controller
     [Route("/box/{boxId}")]
     public bool DeleteBox([FromRoute] int boxId)
     {
-        //Todo implement
-        return false;
+        return _service.DeleteBoxById(boxId);
     }
     
 }
