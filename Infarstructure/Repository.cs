@@ -89,4 +89,21 @@ public class Repository
             return conn.Query<BoxFeed>(sql, new {searchTerm = "%"+searchTerm+"%", amount});
         }
     }
+    
+    public Box UpdateBox(int boxId, string name, string size, string description, float price, string boxImgUrl)
+    {
+        var sql = @$"
+UPDATE getboxed.box SET name = @name, size = @size, description = @description, price = @price, boxImgUrl = @boxImgUrl WHERE boxid = @boxId
+RETURNING 
+    boxid as {nameof(BoxFeed.boxId)}, 
+            name as {nameof(BoxFeed.name)},
+            size as {nameof(BoxFeed.size)}, 
+            price as {nameof(BoxFeed.price)}, 
+            boximgurl as {nameof(BoxFeed.boxImgUrl)};";
+        
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QueryFirst<Box>(sql, new {boxId ,name, size, description, price, boxImgUrl});
+        }
+    }
 }

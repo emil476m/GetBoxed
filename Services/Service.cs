@@ -91,8 +91,7 @@ public class Service
     {
         try
         {
-            throw new NotImplementedException();
-            //return _repository.UpdateBox(boxId,box);
+            return _repository.UpdateBox(boxId,box.name, box.size, box.description, box.price, box.boxImgUrl);
         }
         catch (Exception e)
         {
