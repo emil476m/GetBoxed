@@ -26,13 +26,11 @@ public class Service
         }
     }
     
-    public Box GetBOxById(int boxId)
+    public Box GetBoxById(int boxId)
     {
         try
         {
-            //TODO Implement this
-            return null;
-            //return _repository.getBoxByID(boxId);
+            return _repository.getBoxById(boxId);
         }
         catch (Exception e)
         {

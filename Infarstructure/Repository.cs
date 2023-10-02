@@ -52,4 +52,21 @@ public class Repository
             return conn.Execute(sql, new {boxId}) == 1;
         }
     }
+    
+    
+    public Box getBoxById(int boxId)
+    {
+        var sql = $@"SELECT 
+        boxid as {nameof(Box.boxId)}, 
+        name as {nameof(Box.name)},
+        size as {nameof(Box.size)}, 
+        description as {nameof(Box.description)}, 
+        price as {nameof(Box.price)}, 
+        boximgurl as {nameof(Box.boxImgUrl)} FROM getboxed.box WHERE boxid = @boxId";
+        
+        using(var conn = _dataSource.OpenConnection())
+        {
+            return conn.QueryFirst<Box>(sql, new {boxId});
+        }
+    }
 }

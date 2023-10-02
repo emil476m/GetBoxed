@@ -18,18 +18,6 @@ public class Utilities
             throw new Exception($@"
 🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨
 YOUR CONN STRING {envVarKeyName} IS EMPTY.
-Solution: If you run terminal INSIDE Rider, go to settings, go to Tools -> Terminal and insert the {envVarKeyName}
-environment variable from here.
-If you're running from Git Bash OUTSIDE your IDE, go to the .bash_profile file in your home directory, and add the line
-
-export {envVarKeyName}=YOUR CONNECTION STRING HERE
-
-If you use zsh (like Mac users), add the above line in the .zshrc file in your home directory.
-
-Don't forget to close down the terminal after setting environment variable and starting a new one.
-
-Best regards, Alex
-🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨
 ");
         }
 
@@ -37,7 +25,7 @@ Best regards, Alex
         {
             Uri = new Uri(rawConnectionString);
             ProperlyFormattedConnectionString = string.Format(
-                "Server={0};Database={1};User Id={2};Password={3};Port={4};Pooling=true;MaxPoolSize=3",
+                "Server={0};Database={1};User Id={2};Password={3};Port={4};Pooling=false;",
                 Uri.Host,
                 Uri.AbsolutePath.Trim('/'),
                 Uri.UserInfo.Split(':')[0],
