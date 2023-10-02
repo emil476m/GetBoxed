@@ -45,8 +45,7 @@ public class Service
     {
         try
         {
-            throw new NotImplementedException();
-            //return _repository.GetBoxPrice(boxId);
+            return _repository.GetBoxPrice(boxId);
         }
         catch (Exception e)
         {

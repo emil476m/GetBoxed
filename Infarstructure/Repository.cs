@@ -11,23 +11,24 @@ public class Repository
     {
         _dataSource = dataSource;
     }
-    
+
     public Box CreateBox(string name, string size, string description, float price, string boxImgUrl)
     {
-        var sql = $@"INSERT INTO getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl) RETURNING 
+        var sql =
+            $@"INSERT INTO getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl) RETURNING 
         boxid as {nameof(Box.boxId)}, 
         name as {nameof(Box.name)},
         size as {nameof(Box.size)}, 
         description as {nameof(Box.description)}, 
         price as {nameof(Box.price)}, 
         boximgurl as {nameof(Box.boxImgUrl)};";
-        
+
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<Box>(sql, new {name, size, description, price, boxImgUrl});
+            return conn.QueryFirst<Box>(sql, new { name, size, description, price, boxImgUrl });
         }
     }
-    
+
     public IEnumerable<BoxFeed> GetBoxFeed()
     {
         var sql = $@"SELECT 
@@ -36,8 +37,8 @@ public class Repository
         size as {nameof(BoxFeed.size)}, 
         price as {nameof(BoxFeed.price)}, 
         boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM getboxed.box";
-        
-        using(var conn = _dataSource.OpenConnection())
+
+        using (var conn = _dataSource.OpenConnection())
         {
             return conn.Query<BoxFeed>(sql);
         }
@@ -45,15 +46,15 @@ public class Repository
 
     public bool DeleteBox(int boxId)
     {
-        var sql =  $@"DELETE FROM getboxed.box WHERE boxid = (@boxId);";
-        
+        var sql = $@"DELETE FROM getboxed.box WHERE boxid = (@boxId);";
+
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Execute(sql, new {boxId}) == 1;
+            return conn.Execute(sql, new { boxId }) == 1;
         }
     }
-    
-    
+
+
     public Box getBoxById(int boxId)
     {
         var sql = $@"SELECT 
@@ -63,10 +64,10 @@ public class Repository
         description as {nameof(Box.description)}, 
         price as {nameof(Box.price)}, 
         boximgurl as {nameof(Box.boxImgUrl)} FROM getboxed.box WHERE boxid = @boxId";
-        
-        using(var conn = _dataSource.OpenConnection())
+
+        using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<Box>(sql, new {boxId});
+            return conn.QueryFirst<Box>(sql, new { boxId });
         }
     }
 
@@ -83,10 +84,25 @@ public class Repository
             WHERE name LIKE @searchTerm
             LIMIT @amount
             ;";
-        
-        using(var conn = _dataSource.OpenConnection())
+
+        using (var conn = _dataSource.OpenConnection())
         {
-            return conn.Query<BoxFeed>(sql, new {searchTerm = "%"+searchTerm+"%", amount});
+            return conn.Query<BoxFeed>(sql, new { searchTerm = "%" + searchTerm + "%", amount });
+        }
+    }
+
+    public float GetBoxPrice(int boxId)
+    {
+        var sql = $@"
+            SELECT 
+            price as {nameof(BoxFeed.price)} FROM getboxed.box
+            
+             WHERE boxid = @boxId;"
+            ;
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QueryFirst<float>(sql, new { boxId });
         }
     }
 }
