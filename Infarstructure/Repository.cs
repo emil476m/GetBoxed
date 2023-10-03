@@ -122,4 +122,43 @@ RETURNING
             return conn.QueryFirst<Box>(sql, new {boxId ,name, size, description, price, boxImgUrl});
         }
     }
+
+    public IEnumerable<OrderFeed> getOrderFeed()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Order CreateOrder(int orderCustomerId, float orderTotalPrice, Dictionary<int, int> orderBoxOrder //boxId, qty
+    )
+    {
+        var sql =
+            $@"INSERT INTO getboxed.orderlist (customerid, pricesum) VALUES(@orderCustomerId, @orderTotalPrice) RETURNING orderid; ";
+        
+        var sql2 =
+            $@"INSERT INTO getboxed.boxorder (orderid,boxid,boxamount) VALUES(@orderID, @boxId,@boxAmount )";
+
+        var sql3 =
+            $@"SELECT * FROM getboxed.orderlist WHERE orderid = @orderId ";
+
+        
+        using (var conn = _dataSource.OpenConnection())
+        {
+            //USe transactions
+           int orderId =  conn.QueryFirst<int>(sql, new {orderCustomerId, orderTotalPrice});
+           for (int i = 0; i<orderBoxOrder.Count; i++)
+           {
+               conn.QueryFirst<int>(sql2,
+                   new
+                   {
+                       orderId,
+                       boxAmount = orderBoxOrder.Values.ToList()[i],
+                       boxId = orderBoxOrder.Keys.ToList()[i]
+                   });
+           }
+            
+           return conn.QueryFirst<Order>(sql3, new {orderId});
+           
+        }
+
+    }
 }

@@ -7,7 +7,6 @@ public class Models
 
 public class BoxFeed
 {
-    [Range(-1, int.MaxValue)]
     public int boxId { get; set; }
     
     [MinLength(3)]
@@ -26,7 +25,6 @@ public class BoxFeed
 
 public class Box
 {
-    [Range(-1, int.MaxValue)]
     public int boxId { get; set; }
     
     [MinLength(3)]
@@ -45,4 +43,20 @@ public class Box
     public float price { get; set; }
     
     public string boxImgUrl { get; set; }
+}
+
+public class OrderFeed
+{
+    public int orderId { get; set; }
+    public int customerId { get; set; }
+    public float price { get; set; }
+    
+}
+
+public class Order
+{
+    public int orderOId { get; set; }
+    public int customerId { get; set; }
+    public float totalPrice { get; set; }
+    public Dictionary<int,int> BoxOrder { get; set; }
 }

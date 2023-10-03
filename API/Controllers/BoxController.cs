@@ -44,12 +44,44 @@ public class BoxController : Controller
     {
         return _service.SearchForBoxes(searchTerm, amount);
     }
+    
+    [HttpGet]
+    [Route("/Order")]
+    public IEnumerable<OrderFeed> GetAllOrders()
+    {
+        //TODO Get all orders
+        //return _service.getAllOrders();
+        throw new NotImplementedException();
+    }
+    
+    [HttpGet]
+    [Route("/Order/{CustomerId}")]
+    public IEnumerable<Order> GetOrderByCostomerId([FromRoute] int orderId)
+    {
+        //TODO Get all orders based on a customer ID
+        throw new NotImplementedException();
+    }
+    
+    [HttpGet]
+    [Route("/Order/{OrderId}")]
+    public Order GetOrderById([FromRoute] int orderId)
+    {
+        //TODO get fully detailed order
+        throw new NotImplementedException();
+    }
 
     [HttpPost]
     [Route("/box")]
     public Box CreateBox([FromBody] Box box)
     {
         return _service.CreateBox(box.name,box.size,box.description,box.price,box.boxImgUrl);
+    }
+
+    [HttpPost]
+    [Route("/order")]
+    public Order CreateOrder([FromBodyAttribute] Order order)
+    {
+        return _service.createOrder(order.customerId,order.totalPrice, order.BoxOrder);
     }
 
     [HttpPut]

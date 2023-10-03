@@ -115,4 +115,34 @@ public class Service
             throw new Exception("Could not delete this Box");
         }
     }
+
+    public IEnumerable<OrderFeed> getAllOrders()
+    {
+        try
+        {
+            return _repository.getOrderFeed();
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("Could not get the Order feed");
+        }
+    }
+
+    public Order createOrder(int orderCustomerId, float orderTotalPrice, Dictionary<int, int> orderBoxOrder)
+    {
+        try
+        {
+            return _repository.CreateOrder(orderCustomerId, orderTotalPrice, orderBoxOrder);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("An error ocured while creating this order");
+        }
+    }
 }
