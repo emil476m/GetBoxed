@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {ModalController, ToastController} from "@ionic/angular";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Box, Boxfeed} from "../boxInterface";
+import {firstValueFrom} from "rxjs";
+import {globalState} from "../../service/states/global.state";
 
 @Component({
   selector: 'app-newbox-modal',
@@ -60,7 +62,7 @@ export class NewBoxModal
 {
     BName = new FormControl("", [Validators.required,Validators.minLength(3),Validators.maxLength(100)]);
     BSize = new FormControl("",[Validators.required,Validators.minLength(6),Validators.maxLength(50)]);
-    BPrice = new FormControl("",[Validators.required]);
+    BPrice = new FormControl(0,[Validators.required]);
     BImage = new FormControl("", [Validators.required]);
     BDesc = new FormControl("",[Validators.required]);
 
@@ -75,16 +77,17 @@ export class NewBoxModal
       });
 
 
-  constructor(private modalController: ModalController, private http: HttpClient, private toastControl: ToastController) {
+  constructor(private modalController: ModalController, private http: HttpClient, private toastControl: ToastController, public state: globalState) {
   }
 
   dismissModal() {
     this.modalController.dismiss();
   }
 
-  createbox() {
+  async createbox() {
     try{
-      this.http.post<Boxfeed>('http://localhost:5000/box', this.BoxGroup.value)
+      const call = this.http.post<Box>('http://localhost:5000/box', this.BoxGroup.value)
+      const reault = await firstValueFrom(call);
       this.toastControl.create(
         {
           color: "success",
@@ -93,12 +96,24 @@ export class NewBoxModal
         }
       ).then(res =>{
         res.present();
-        this.dismissModal();
+
       })
+      this.state.Boxfeed.push(reault);
     }
     catch (error)
     {
-      console.log(error)
+      this.toastControl.create(
+        {
+          color: "success",
+          duration: 2000,
+          message: "Success"
+        }
+      ).then(res =>{
+        res.present();
+
+      })
+
     }
+    this.dismissModal();
   }
 }

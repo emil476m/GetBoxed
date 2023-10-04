@@ -5,6 +5,7 @@ import {ModalController, ToastController} from "@ionic/angular";
 import {NewBoxModal} from "../newboxmodal/newboxmodal";
 import {Boxfeed} from "../boxInterface";
 import {firstValueFrom} from "rxjs";
+import {globalState} from "../../service/states/global.state";
 
 @Component({
   selector: 'app-boxfeed',
@@ -17,7 +18,7 @@ import {firstValueFrom} from "rxjs";
         </ion-header>
         <ion-content class="ion-padding" [fullscreen]="true">
 
-            <ion-card *ngFor="let box of BoxFeed">
+            <ion-card *ngFor="let box of state.Boxfeed">
                 <ion-toolbar>
                     <ion-title>{{box.name}}</ion-title>
                     <ion-buttons slot="end">
@@ -48,7 +49,7 @@ import {firstValueFrom} from "rxjs";
 export class BoxFeedPage implements OnInit{
     BoxFeed: Boxfeed[] = [];
 
-  constructor(private modalController: ModalController, private http: HttpClient, public router: Router) {}
+  constructor(private modalController: ModalController, private http: HttpClient, public router: Router, public state: globalState) {}
 
 
   ngOnInit(): void {
@@ -71,9 +72,9 @@ export class BoxFeedPage implements OnInit{
 
     private async getBoxFeed() {
         try {
-          const call = this.http.get<Boxfeed[]>("http://localhost:5000/feed");
+          const call = this.http.get<Boxfeed[]>("http://localhost:5000/box");
           const result = await firstValueFrom<Boxfeed[]>(call);
-          this.BoxFeed = result
+          this.state.Boxfeed = result
         }
         catch (error)
         {
