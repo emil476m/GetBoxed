@@ -18,7 +18,7 @@ public class BoxController : Controller
     }
 
     [HttpGet]
-    [Route("/feed")]
+    [Route("/box")]
     public IEnumerable<BoxFeed> GetAllBoxes()
     {
         return _service.getBoxFeed();
