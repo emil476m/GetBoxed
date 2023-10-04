@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {ModalController} from "@ionic/angular";
+import {ModalController, ToastController} from "@ionic/angular";
 import {NewBoxModal} from "../newboxmodal/newboxmodal";
 import {Boxfeed} from "../boxInterface";
 import {firstValueFrom} from "rxjs";
@@ -70,8 +70,15 @@ export class BoxFeedPage implements OnInit{
     }
 
     private async getBoxFeed() {
-        const call = this.http.get<Boxfeed[]>("http://localhost:5000/box");
-        const result = await firstValueFrom<Boxfeed[]>(call);
-        this.BoxFeed = result
+        try {
+          const call = this.http.get<Boxfeed[]>("http://localhost:5000/feed");
+          const result = await firstValueFrom<Boxfeed[]>(call);
+          this.BoxFeed = result
+        }
+        catch (error)
+        {
+          console.log(error)
+        }
+
     }
 }

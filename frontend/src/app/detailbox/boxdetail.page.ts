@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Box, Boxfeed} from "../boxInterface";
 import {firstValueFrom} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {ModalController} from "@ionic/angular";
+import {editBoxModal} from "../EditBoxModal/editboxmodal";
 
 @Component({
     selector: 'app-boxdetailed',
@@ -39,7 +41,7 @@ import {HttpClient} from "@angular/common/http";
 export class boxDetailPage implements OnInit{
     currentBox: Box | any = {};
 
-    constructor(public router: Router, public route: ActivatedRoute, private http: HttpClient) {
+    constructor(public router: Router, public route: ActivatedRoute, private http: HttpClient, private modalcontroller: ModalController) {
 
     }
 
@@ -61,6 +63,13 @@ export class boxDetailPage implements OnInit{
     }
 
     openEdit() {
-
+      this.modalcontroller.create({
+        component: editBoxModal,
+        componentProps: {
+          copyOfBox: this.currentBox
+        }
+      }).then(res => {
+        res.present();
+      })
     }
 }
