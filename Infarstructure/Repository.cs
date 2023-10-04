@@ -111,11 +111,12 @@ public class Repository
         var sql = @$"
 UPDATE getboxed.box SET name = @name, size = @size, description = @description, price = @price, boxImgUrl = @boxImgUrl WHERE boxid = @boxId
 RETURNING 
-    boxid as {nameof(BoxFeed.boxId)}, 
-            name as {nameof(BoxFeed.name)},
-            size as {nameof(BoxFeed.size)}, 
-            price as {nameof(BoxFeed.price)}, 
-            boximgurl as {nameof(BoxFeed.boxImgUrl)};";
+    boxid as {nameof(Box.boxId)}, 
+            name as {nameof(Box.name)},
+            size as {nameof(Box.size)},
+            description as {nameof(Box.description)}, 
+            price as {nameof(Box.price)}, 
+            boximgurl as {nameof(Box.boxImgUrl)};";
         
         using (var conn = _dataSource.OpenConnection())
         {
