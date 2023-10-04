@@ -7,7 +7,6 @@ public class Models
 
 public class BoxFeed
 {
-    [Range(-1, int.MaxValue)]
     public int boxId { get; set; }
     
     [MinLength(3)]
@@ -26,7 +25,6 @@ public class BoxFeed
 
 public class Box
 {
-    [Range(-1, int.MaxValue)]
     public int boxId { get; set; }
     
     [MinLength(3)]
