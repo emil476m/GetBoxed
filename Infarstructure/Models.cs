@@ -1,3 +1,4 @@
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace Infarstructure;
@@ -58,5 +59,11 @@ public class Order
     public int orderOId { get; set; }
     public int customerId { get; set; }
     public float totalPrice { get; set; }
-    public Dictionary<int,int> BoxOrder { get; set; }
+    public List<Orders> BoxOrder { get; set; }
+}
+
+public class Orders
+{
+    public int amount { get; set; }
+    public int boxId { get; set; }
 }

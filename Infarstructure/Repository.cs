@@ -105,7 +105,7 @@ public class Repository
             return conn.QueryFirst<float>(sql, new { boxId });
         }
     }
-    
+
     public Box UpdateBox(int boxId, string name, string size, string description, float price, string boxImgUrl)
     {
         var sql = @$"
@@ -116,10 +116,10 @@ RETURNING
             size as {nameof(BoxFeed.size)}, 
             price as {nameof(BoxFeed.price)}, 
             boximgurl as {nameof(BoxFeed.boxImgUrl)};";
-        
+
         using (var conn = _dataSource.OpenConnection())
         {
-            return conn.QueryFirst<Box>(sql, new {boxId ,name, size, description, price, boxImgUrl});
+            return conn.QueryFirst<Box>(sql, new { boxId, name, size, description, price, boxImgUrl });
         }
     }
 
@@ -128,37 +128,64 @@ RETURNING
         throw new NotImplementedException();
     }
 
-    public Order CreateOrder(int orderCustomerId, float orderTotalPrice, Dictionary<int, int> orderBoxOrder //boxId, qty
+    public int CreateOrder(int orderCustomerId, float orderTotalPrice, List<Orders> orderBoxOrder //boxId, qty
     )
     {
         var sql =
             $@"INSERT INTO getboxed.orderlist (customerid, pricesum) VALUES(@orderCustomerId, @orderTotalPrice) RETURNING orderid; ";
-        
+
         var sql2 =
-            $@"INSERT INTO getboxed.boxorder (orderid,boxid,boxamount) VALUES(@orderID, @boxId,@boxAmount )";
-
-        var sql3 =
-            $@"SELECT * FROM getboxed.orderlist WHERE orderid = @orderId ";
-
+            $@"INSERT INTO getboxed.boxorder (orderid,boxid,boxamount) VALUES(@orderId, @orderBoxId,@OrderboxAmount )";
         
         using (var conn = _dataSource.OpenConnection())
         {
-            //USe transactions
-           int orderId =  conn.QueryFirst<int>(sql, new {orderCustomerId, orderTotalPrice});
-           for (int i = 0; i<orderBoxOrder.Count; i++)
-           {
-               conn.QueryFirst<int>(sql2,
-                   new
-                   {
-                       orderId,
-                       boxAmount = orderBoxOrder.Values.ToList()[i],
-                       boxId = orderBoxOrder.Keys.ToList()[i]
-                   });
-           }
-            
-           return conn.QueryFirst<Order>(sql3, new {orderId});
-           
-        }
+            var transaction = conn.BeginTransaction();
+            try
+            {
+                int orderId = conn.QueryFirst<int>(sql, new { orderCustomerId, orderTotalPrice });
 
+                foreach (var item in orderBoxOrder)
+                {
+                    conn.Query(sql2, new { orderId, orderBoxId = item.boxId, OrderboxAmount = item.amount });
+                }
+                
+                transaction.Commit();
+                return orderId;
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                throw e;
+            }
+        }
+    }
+
+    public Order GetOrderById(int orderId)
+    {
+        var sql1 =
+            $@"SELECT * FROM getboxed.orderlist WHERE orderid = @orderId ";
+
+        var sql2 =
+            $@"SELECT * FROM getboxed.boxorder WHERE orderid = @orderId";
+
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            var transaction = conn.BeginTransaction();
+            try
+            {
+                Order confirmedOrder = conn.QueryFirst<Order>(sql1, new { orderId });
+
+                confirmedOrder.BoxOrder = conn.Query<Orders>(sql2, new { orderId }) as List<Orders>;
+                
+                transaction.Commit();
+                return confirmedOrder;
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                throw e;
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ public class Service
     {
         _repository = repository;
     }
-    
+
     public IEnumerable<BoxFeed> getBoxFeed()
     {
         try
@@ -25,7 +25,7 @@ public class Service
             throw new Exception("Could not get the Box feed");
         }
     }
-    
+
     public Box GetBoxById(int boxId)
     {
         try
@@ -40,7 +40,7 @@ public class Service
             throw new Exception("Could not Find This Specific box");
         }
     }
-    
+
     public float GetPriceOfBox(int boxId)
     {
         try
@@ -55,7 +55,7 @@ public class Service
             throw new Exception("Could not get the price of this Box");
         }
     }
-    
+
     public IEnumerable<BoxFeed> SearchForBoxes(string searchTerm, int amount)
     {
         try
@@ -85,12 +85,12 @@ public class Service
             throw new Exception("Could not create this Box");
         }
     }
-    
+
     public Box UpdateBox(int boxId, Box box)
     {
         try
         {
-            return _repository.UpdateBox(boxId,box.name, box.size, box.description, box.price, box.boxImgUrl);
+            return _repository.UpdateBox(boxId, box.name, box.size, box.description, box.price, box.boxImgUrl);
         }
         catch (Exception e)
         {
@@ -131,18 +131,27 @@ public class Service
         }
     }
 
-    public Order createOrder(int orderCustomerId, float orderTotalPrice, Dictionary<int, int> orderBoxOrder)
+    public Order createOrder(int orderCustomerId, float orderTotalPrice, List<Orders> orderBoxOrder)
     {
+        int id = -1;
         try
         {
-            return _repository.CreateOrder(orderCustomerId, orderTotalPrice, orderBoxOrder);
+            id = _repository.CreateOrder(orderCustomerId, orderTotalPrice, orderBoxOrder);
+            return _repository.GetOrderById(id);
         }
         catch (Exception e)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(e);
             Console.ResetColor();
-            throw new Exception("An error ocured while creating this order");
+            if (id != -1)
+            {
+                throw new Exception("order was successfully created but could not return data");
+            }
+            else
+            {
+                throw new Exception("An error occurred while creating this order");
+            }
         }
     }
 }
