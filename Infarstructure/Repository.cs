@@ -136,7 +136,7 @@ RETURNING
 
         var sql2 =
             $@"INSERT INTO getboxed.boxorder (orderid,boxid,boxamount) VALUES(@orderId, @orderBoxId,@OrderboxAmount )";
-        
+
         using (var conn = _dataSource.OpenConnection())
         {
             var transaction = conn.BeginTransaction();
@@ -148,7 +148,7 @@ RETURNING
                 {
                     conn.Query(sql2, new { orderId, orderBoxId = item.boxId, OrderboxAmount = item.amount });
                 }
-                
+
                 transaction.Commit();
                 return orderId;
             }
@@ -163,10 +163,14 @@ RETURNING
     public Order GetOrderById(int orderId)
     {
         var sql1 =
-            $@"SELECT * FROM getboxed.orderlist WHERE orderid = @orderId ";
+            $@"SELECT orderid as {nameof(Order.orderOId)},
+            pricesum as {nameof(Order.totalPrice)},
+            customerid as {nameof(Order.customerId)}
+       FROM getboxed.orderlist WHERE orderid = @orderId ";
 
         var sql2 =
-            $@"SELECT * FROM getboxed.boxorder WHERE orderid = @orderId";
+            $@"SELECT boxamount as {nameof(Orders.amount)},
+       boxid as {nameof(Orders.boxId)} FROM getboxed.boxorder WHERE orderid = @orderId";
 
 
         using (var conn = _dataSource.OpenConnection())
@@ -177,9 +181,46 @@ RETURNING
                 Order confirmedOrder = conn.QueryFirst<Order>(sql1, new { orderId });
 
                 confirmedOrder.BoxOrder = conn.Query<Orders>(sql2, new { orderId }) as List<Orders>;
-                
+
                 transaction.Commit();
                 return confirmedOrder;
+            }
+            catch (Exception e)
+            {
+                transaction.Rollback();
+                throw e;
+            }
+        }
+    }
+
+    public IEnumerable<Order> GetOrderByCustoemrId(int customerId)
+    {
+        var sql1 =
+            $@"SELECT orderid as {nameof(Order.orderOId)},
+            pricesum as {nameof(Order.totalPrice)},
+            customerid as {nameof(Order.customerId)}
+       FROM getboxed.orderlist WHERE customerid = @orderId ";
+
+        var sql2 =
+            $@"SELECT boxamount as {nameof(Orders.amount)},
+       boxid as {nameof(Orders.boxId)} FROM getboxed.boxorder WHERE orderid = @orderId";
+
+        List<Order> customersOrders = new List<Order>();
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            var transaction = conn.BeginTransaction();
+            try
+            {
+                customersOrders = conn.Query<Order>(sql1, new { customerId }) as List<Order>;
+
+                foreach (var order in customersOrders)
+                {
+                    order.BoxOrder = conn.Query<Orders>(sql2, new { order.orderOId }) as List<Orders>;
+                }
+
+                transaction.Commit();
+                return customersOrders;
             }
             catch (Exception e)
             {

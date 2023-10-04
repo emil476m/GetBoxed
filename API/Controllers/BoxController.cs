@@ -55,19 +55,17 @@ public class BoxController : Controller
     }
     
     [HttpGet]
-    [Route("/Order/{CustomerId}")]
-    public IEnumerable<Order> GetOrderByCostomerId([FromRoute] int orderId)
+    [Route("/Order/Customer/{customerId}")]
+    public IEnumerable<Order> GetOrderByCostomerId([FromRoute] int customerId)
     {
-        //TODO Get all orders based on a customer ID
-        throw new NotImplementedException();
+        return _service.getAllOrdersByCustomerId(customerId);
     }
     
     [HttpGet]
-    [Route("/Order/{OrderId}")]
+    [Route("/Order/{orderId}")]
     public Order GetOrderById([FromRoute] int orderId)
     {
-        //TODO get fully detailed order
-        throw new NotImplementedException();
+        return _service.getOrderById(orderId);
     }
 
     [HttpPost]

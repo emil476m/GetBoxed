@@ -154,4 +154,34 @@ public class Service
             }
         }
     }
+
+    public Order getOrderById(int orderId)
+    {
+        try
+        {
+            return _repository.GetOrderById(orderId);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("An error occurred while fetching this order");
+        }
+    }
+
+    public IEnumerable<Order> getAllOrdersByCustomerId(int customerId)
+    {
+        try
+        {
+            return _repository.GetOrderByCustoemrId(customerId);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("An error occurred while fetching orders for customer");
+        }
+    }
 }
