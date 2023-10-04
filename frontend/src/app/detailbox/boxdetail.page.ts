@@ -3,6 +3,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Box, Boxfeed} from "../boxInterface";
 import {firstValueFrom} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {ModalController} from "@ionic/angular";
+import {editBoxModal} from "../EditBoxModal/editboxmodal";
+import {globalState} from "../../service/states/global.state";
 
 @Component({
     selector: 'app-boxdetailed',
@@ -15,31 +18,30 @@ import {HttpClient} from "@angular/common/http";
                             <ion-icon name="chevron-back"></ion-icon>
                         </ion-button>
                     </ion-buttons>
-                    <ion-title>{{currentBox.name}}</ion-title>
+                    <ion-title>{{state.currentBox.name}}</ion-title>
                     <ion-buttons slot="end">
                     <ion-button (click)="openEdit()">
                         <ion-icon name="cog"></ion-icon>
                     </ion-button>
                 </ion-buttons>
                 </ion-toolbar>
-                <img [src]="currentBox.boxImgUrl">
+                <img [src]="state.currentBox.boxImgUrl">
 
                 <ion-item lines="none">
-                    <i>{{currentBox.description}}</i>
+                    <i>{{state.currentBox.description}}</i>
                 </ion-item>
                 <ion-item>
-                    <i>{{currentBox.size}}</i>
+                    <i>{{state.currentBox.size}}</i>
                 </ion-item>
                 <ion-item>
-                    <i>{{currentBox.price}}</i>
+                    <i>{{state.currentBox.price}}</i>
                 </ion-item>
             </ion-card>
         `,
 })
 export class boxDetailPage implements OnInit{
-    currentBox: Box | any = {};
 
-    constructor(public router: Router, public route: ActivatedRoute, private http: HttpClient) {
+    constructor(public router: Router, public route: ActivatedRoute, private http: HttpClient, private modalcontroller: ModalController, public state: globalState) {
 
     }
 
@@ -57,10 +59,17 @@ export class boxDetailPage implements OnInit{
         const id = (await firstValueFrom(this.route.paramMap)).get('id');
         const call = this.http.get<Box>("http://localhost:5000/box/"+id);
         const result = await firstValueFrom<Box>(call);
-        this.currentBox = result
+        this.state.currentBox = result
     }
 
     openEdit() {
-
+      this.modalcontroller.create({
+        component: editBoxModal,
+        componentProps: {
+          copyOfBox: {...this.state.currentBox}
+        }
+      }).then(res => {
+        res.present();
+      })
     }
 }

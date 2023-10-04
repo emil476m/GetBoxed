@@ -10,6 +10,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {NewBoxModal} from "../newboxmodal/newboxmodal";
 import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
+import {editBoxModal} from "../EditBoxModal/editboxmodal";
 
 
 
@@ -22,6 +23,6 @@ import {boxDetailPage} from "../detailbox/boxdetail.page";
         HttpClientModule,
         ReactiveFormsModule
     ],
-  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage]
+  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal]
 })
 export class HomePageModule {}
