@@ -10,7 +10,7 @@ public class Service
     {
         _repository = repository;
     }
-    
+
     public IEnumerable<BoxFeed> getBoxFeed()
     {
         try
@@ -25,7 +25,7 @@ public class Service
             throw new Exception("Could not get the Box feed");
         }
     }
-    
+
     public Box GetBoxById(int boxId)
     {
         try
@@ -40,7 +40,7 @@ public class Service
             throw new Exception("Could not Find This Specific box");
         }
     }
-    
+
     public float GetPriceOfBox(int boxId)
     {
         try
@@ -55,7 +55,7 @@ public class Service
             throw new Exception("Could not get the price of this Box");
         }
     }
-    
+
     public IEnumerable<BoxFeed> SearchForBoxes(string searchTerm, int amount)
     {
         try
@@ -85,12 +85,12 @@ public class Service
             throw new Exception("Could not create this Box");
         }
     }
-    
+
     public Box UpdateBox(int boxId, Box box)
     {
         try
         {
-            return _repository.UpdateBox(boxId,box.name, box.size, box.description, box.price, box.boxImgUrl);
+            return _repository.UpdateBox(boxId, box.name, box.size, box.description, box.price, box.boxImgUrl);
         }
         catch (Exception e)
         {
@@ -113,6 +113,75 @@ public class Service
             Console.WriteLine(e);
             Console.ResetColor();
             throw new Exception("Could not delete this Box");
+        }
+    }
+
+    public IEnumerable<OrderFeed> getAllOrders()
+    {
+        try
+        {
+            return _repository.getOrderFeed();
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("Could not get the Order feed");
+        }
+    }
+
+    public Order createOrder(int orderCustomerId, float orderTotalPrice, List<Orders> orderBoxOrder)
+    {
+        int id = -1;
+        try
+        {
+            id = _repository.CreateOrder(orderCustomerId, orderTotalPrice, orderBoxOrder);
+            return _repository.GetOrderById(id);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            if (id != -1)
+            {
+                throw new Exception("order was successfully created but could not return data");
+            }
+            else
+            {
+                throw new Exception("An error occurred while creating this order");
+            }
+        }
+    }
+
+    public Order getOrderById(int orderId)
+    {
+        try
+        {
+            return _repository.GetOrderById(orderId);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("An error occurred while fetching this order");
+        }
+    }
+
+    public IEnumerable<Order> getAllOrdersByCustomerId(int customerId)
+    {
+        try
+        {
+            return _repository.GetOrderByCustoemrId(customerId);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("An error occurred while fetching orders for customer");
         }
     }
 }

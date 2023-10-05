@@ -1,3 +1,4 @@
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 namespace Infarstructure;
@@ -43,4 +44,26 @@ public class Box
     public float price { get; set; }
     
     public string boxImgUrl { get; set; }
+}
+
+public class OrderFeed
+{
+    public int orderId { get; set; }
+    public int customerId { get; set; }
+    public float price { get; set; }
+    
+}
+
+public class Order
+{
+    public int orderOId { get; set; }
+    public int customerId { get; set; }
+    public float totalPrice { get; set; }
+    public List<Orders> BoxOrder { get; set; }
+}
+
+public class Orders
+{
+    public int amount { get; set; }
+    public int boxId { get; set; }
 }
