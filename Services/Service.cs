@@ -131,12 +131,12 @@ public class Service
         }
     }
 
-    public Order createOrder(int orderCustomerId, float orderTotalPrice, List<Orders> orderBoxOrder)
+    public Order createOrder(int orderCustomerId, float orderTotalPrice, DateTime orderDate , List<Orders> orderBoxOrder)
     {
         int id = -1;
         try
         {
-            id = _repository.CreateOrder(orderCustomerId, orderTotalPrice, orderBoxOrder);
+            id = _repository.CreateOrder(orderCustomerId, orderDate ,orderTotalPrice, orderBoxOrder);
             return _repository.GetOrderById(id);
         }
         catch (Exception e)

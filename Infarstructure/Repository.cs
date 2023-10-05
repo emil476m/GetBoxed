@@ -130,6 +130,7 @@ RETURNING
         var sql1 =
             $@"SELECT orderid as {nameof(OrderFeed.orderId)},
             pricesum as {nameof(OrderFeed.price)},
+            orderDate as {nameof(OrderFeed.orderDate)},            
             customerid as {nameof(OrderFeed.customerId)}
        FROM getboxed.orderlist; ";
 
@@ -139,11 +140,10 @@ RETURNING
         }
     }
 
-    public int CreateOrder(int orderCustomerId, float orderTotalPrice, List<Orders> orderBoxOrder //boxId, qty
-    )
+    public int CreateOrder(int orderCustomerId, DateTime orderDate, float orderTotalPrice, List<Orders> orderBoxOrder)//boxId, qty)
     {
         var sql =
-            $@"INSERT INTO getboxed.orderlist (customerid, pricesum) VALUES(@orderCustomerId, @orderTotalPrice) RETURNING orderid; ";
+            $@"INSERT INTO getboxed.orderlist (customerid, pricesum, orderDate) VALUES(@orderCustomerId, @orderTotalPrice, @orderDate) RETURNING orderid; ";
 
         var sql2 =
             $@"INSERT INTO getboxed.boxorder (orderid,boxid,boxamount) VALUES(@orderId, @orderBoxId,@OrderboxAmount )";
@@ -153,7 +153,7 @@ RETURNING
             var transaction = conn.BeginTransaction();
             try
             {
-                int orderId = conn.QueryFirst<int>(sql, new { orderCustomerId, orderTotalPrice });
+                int orderId = conn.QueryFirst<int>(sql, new { orderCustomerId, orderTotalPrice, orderDate});
 
                 foreach (var item in orderBoxOrder)
                 {
@@ -176,6 +176,7 @@ RETURNING
         var sql1 =
             $@"SELECT orderid as {nameof(Order.orderOId)},
             pricesum as {nameof(Order.totalPrice)},
+            orderDate as {nameof(Order.orderDate)},
             customerid as {nameof(Order.customerId)}
        FROM getboxed.orderlist WHERE orderid = @orderId ";
 
@@ -209,6 +210,8 @@ RETURNING
         var sql1 =
             $@"SELECT orderid as {nameof(Order.orderOId)},
             pricesum as {nameof(Order.totalPrice)},
+            orderDate as {nameof(Order.orderDate)},
+            orderDate as {nameof(Order.orderDate)},
             customerid as {nameof(Order.customerId)}
        FROM getboxed.orderlist WHERE customerid = @customerId ";
 
