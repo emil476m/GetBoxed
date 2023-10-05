@@ -98,7 +98,7 @@ export class NewBoxModal
         res.present();
 
       })
-      this.state.Boxfeed.push(reault);
+      this.state.boxfeed.push(reault);
     }
     catch (error)
     {

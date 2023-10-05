@@ -11,6 +11,7 @@ import {globalState} from "../../service/states/global.state";
     selector: 'app-boxdetailed',
     template:
         `
+          <ion-content>
             <ion-card>
                 <ion-toolbar>
                     <ion-buttons>
@@ -34,9 +35,10 @@ import {globalState} from "../../service/states/global.state";
                     <i>{{state.currentBox.size}}</i>
                 </ion-item>
                 <ion-item>
-                    <i>{{state.currentBox.price}}</i>
+                    <i style="color: #2dd36f">$ {{state.currentBox.price}}</i>
                 </ion-item>
             </ion-card>
+          </ion-content>
         `,
 })
 export class boxDetailPage implements OnInit{
@@ -48,7 +50,14 @@ export class boxDetailPage implements OnInit{
 
 
     goBack() {
+        if(this.state.isSearch === false)
+        {
         this.router.navigate(["tabs/tabs/boxfeed"]);
+        }
+        else
+        {
+          this.router.navigate(["tabs/tabs/search"])
+        }
     }
 
     ngOnInit(): void {

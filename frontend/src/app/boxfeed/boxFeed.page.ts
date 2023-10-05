@@ -18,7 +18,7 @@ import {globalState} from "../../service/states/global.state";
         </ion-header>
         <ion-content class="ion-padding" [fullscreen]="true">
 
-            <ion-card *ngFor="let box of state.Boxfeed">
+            <ion-card *ngFor="let box of state.boxfeed">
                 <ion-toolbar>
                     <ion-title>{{box.name}}</ion-title>
                     <ion-buttons slot="end">
@@ -29,10 +29,10 @@ import {globalState} from "../../service/states/global.state";
                 </ion-toolbar>
                 <ion-grid>
                     <ion-row>
-                        <ion-col size="3"><img style="max-height: 100px; width: auto;" src="{{box.boxImgUrl">
+                        <ion-col size="3"><img style="max-height: 100px; width: auto;" [src]="box.boxImgUrl">
                         </ion-col>
                         <ion-col>
-                            <ion-text>{{box.price}}</ion-text>
+                            <ion-text style="color: #2dd36f">$ {{box.price}}</ion-text>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -47,7 +47,7 @@ import {globalState} from "../../service/states/global.state";
     `,
 })
 export class BoxFeedPage implements OnInit{
-    BoxFeed: Boxfeed[] = [];
+
 
   constructor(private modalController: ModalController, private http: HttpClient, public router: Router, public state: globalState) {}
 
@@ -67,6 +67,7 @@ export class BoxFeedPage implements OnInit{
   }
 
     goToBox(boxId: number) {
+      this.state.isSearch = false;
       this.router.navigate(['tabs/tabs/detail/'+ boxId])
     }
 
@@ -74,7 +75,7 @@ export class BoxFeedPage implements OnInit{
         try {
           const call = this.http.get<Boxfeed[]>("http://localhost:5000/box");
           const result = await firstValueFrom<Boxfeed[]>(call);
-          this.state.Boxfeed = result
+          this.state.boxfeed = result
         }
         catch (error)
         {
