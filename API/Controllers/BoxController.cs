@@ -22,7 +22,7 @@ public class BoxController : Controller
     public IEnumerable<BoxFeed> GetAllBoxes()
     {
         return _service.getBoxFeed();
-    }
+    }   
 
     [HttpGet]
     [Route("/box/{boxId}")]
