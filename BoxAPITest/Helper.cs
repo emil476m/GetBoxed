@@ -166,6 +166,10 @@ create table if not exists getboxed.boxorder
     boxamount           integer
 );
 INSERT INTO getboxed.customer VALUES (12, 'Benny Smith', 'benny@gmail.com', '+45 12345678', 'spangsbjerg kirkevej 103');
+Insert INTO getboxed.box VALUES (101,'best box', 'X5 ; Y5 ; Z10', 'Best box description', 20, 'img url');
+INSERT INTO getboxed.orderlist VALUES (101, 12, 20, '2023-10-05');
+INSERT INTO getboxed.boxorder values (101, 101, 101);
+
  ";
     
     public static string NoResponseMessage = $@"
