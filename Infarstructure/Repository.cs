@@ -125,7 +125,16 @@ RETURNING
 
     public IEnumerable<OrderFeed> getOrderFeed()
     {
-        throw new NotImplementedException();
+        var sql1 =
+            $@"SELECT orderid as {nameof(OrderFeed.orderId)},
+            pricesum as {nameof(OrderFeed.price)},
+            customerid as {nameof(OrderFeed.customerId)}
+       FROM getboxed.orderlist; ";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.Query<OrderFeed>(sql1) as List<OrderFeed>;
+        }
     }
 
     public int CreateOrder(int orderCustomerId, float orderTotalPrice, List<Orders> orderBoxOrder //boxId, qty
@@ -199,7 +208,7 @@ RETURNING
             $@"SELECT orderid as {nameof(Order.orderOId)},
             pricesum as {nameof(Order.totalPrice)},
             customerid as {nameof(Order.customerId)}
-       FROM getboxed.orderlist WHERE customerid = @orderId ";
+       FROM getboxed.orderlist WHERE customerid = @customerId ";
 
         var sql2 =
             $@"SELECT boxamount as {nameof(Orders.amount)},
@@ -216,7 +225,7 @@ RETURNING
 
                 foreach (var order in customersOrders)
                 {
-                    order.BoxOrder = conn.Query<Orders>(sql2, new { order.orderOId }) as List<Orders>;
+                    order.BoxOrder = conn.Query<Orders>(sql2, new { orderId = order.orderOId }) as List<Orders>;
                 }
 
                 transaction.Commit();

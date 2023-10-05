@@ -49,9 +49,7 @@ public class BoxController : Controller
     [Route("/Order")]
     public IEnumerable<OrderFeed> GetAllOrders()
     {
-        //TODO Get all orders
-        //return _service.getAllOrders();
-        throw new NotImplementedException();
+        return _service.getAllOrders();
     }
     
     [HttpGet]
