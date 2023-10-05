@@ -7,6 +7,8 @@ import {Box, Boxfeed} from "../../app/boxInterface";
 
 export class globalState
 {
-  Boxfeed: Boxfeed[] = [];
+  boxfeed: Boxfeed[] = [];
   currentBox: Box|any = {};
+  search: Boxfeed[] = [];
+  isSearch: boolean = false;
 }
