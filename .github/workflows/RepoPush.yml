@@ -31,6 +31,6 @@ jobs:
             8.0.x
 
       - name: Run the APITest
-        run: cd API && dotnet run & (sleep 20 && cd BoxAPITests && dotnet test && kill -9 $(lsof -t -i:5000))
+        run: cd API && dotnet run & (sleep 20 && cd BoxAPITest && dotnet test && kill -9 $(lsof -t -i:5000))
         env: 
           pgconn: ${{secrets.pgconn}}
