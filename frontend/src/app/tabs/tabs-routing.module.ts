@@ -4,6 +4,7 @@ import { TabsPage } from './tabs.page';
 import {BoxFeedPage} from "../boxfeed/boxFeed.page";
 import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
+import {OrderFeedPage} from "../orderspage/orderFeed.page";
 
 const routes: Route[] = [
   {
@@ -21,6 +22,10 @@ const routes: Route[] = [
               path: `search`,
                 component: SearchPage
             },
+          {
+            path: `orders`,
+            component: OrderFeedPage
+          },
           {
             path: `detail/:id`,
             component: boxDetailPage,

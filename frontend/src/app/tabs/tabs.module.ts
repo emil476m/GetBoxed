@@ -11,7 +11,7 @@ import {NewBoxModal} from "../newboxmodal/newboxmodal";
 import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
 import {editBoxModal} from "../EditBoxModal/editboxmodal";
-
+import {OrderFeedPage} from "../orderspage/orderFeed.page";
 
 
 @NgModule({
@@ -23,6 +23,6 @@ import {editBoxModal} from "../EditBoxModal/editboxmodal";
         HttpClientModule,
         ReactiveFormsModule
     ],
-  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal]
+  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal, OrderFeedPage]
 })
 export class HomePageModule {}
