@@ -15,6 +15,9 @@ import { Component } from '@angular/core';
               <ion-tab-button tab="cart">
                 <ion-icon name="cart"></ion-icon>
               </ion-tab-button>
+              <ion-tab-button tab="graph" routerLink="graphs">
+                <ion-icon name="bar-chart-outline"></ion-icon>
+              </ion-tab-button>
             </ion-tab-bar>
           </ion-tabs>
 

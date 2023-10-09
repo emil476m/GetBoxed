@@ -11,18 +11,21 @@ import {NewBoxModal} from "../newboxmodal/newboxmodal";
 import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
 import {editBoxModal} from "../EditBoxModal/editboxmodal";
+import {graphModels} from "../GraphModel/graphModels";
+import {NgChartsModule} from "ng2-charts";
 
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        HomePageRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule
-    ],
-  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    HomePageRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgChartsModule,
+  ],
+  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal,graphModels]
 })
 export class HomePageModule {}

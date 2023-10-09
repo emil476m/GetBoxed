@@ -4,6 +4,7 @@ import { TabsPage } from './tabs.page';
 import {BoxFeedPage} from "../boxfeed/boxFeed.page";
 import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
+import {graphModels} from "../GraphModel/graphModels";
 
 const routes: Route[] = [
   {
@@ -24,6 +25,10 @@ const routes: Route[] = [
           {
             path: `detail/:id`,
             component: boxDetailPage,
+          },
+          {
+            path: 'graphs',
+            component: graphModels,
           },
           {
             path: '',
