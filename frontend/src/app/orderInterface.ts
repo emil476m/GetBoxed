@@ -5,10 +5,11 @@ export interface OrderFeed {
 }
 
 export interface Order {
-  orderId: number
-  customerId: number
-  totalPrice: number
-  boxOrder: Orders[]
+  orderId?: number
+  customerId?: number
+  totalPrice?: number
+  orderDate?: string
+  boxOrder?: Orders[]
 }
 
 export interface Orders {

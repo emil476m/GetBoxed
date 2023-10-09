@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Order, Orders} from "../orderInterface";
+import {Box} from "../boxInterface";
 import {firstValueFrom} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {globalState} from "../../service/states/global.state";
@@ -17,28 +18,32 @@ import {globalState} from "../../service/states/global.state";
                             <ion-icon name="chevron-back"></ion-icon>
                         </ion-button>
                     </ion-buttons>
-                    <ion-title>{{state.currentOrder.orderId}}</ion-title>
-                    <ion-buttons slot="end">
-                </ion-buttons>
+                    <ion-title>OrderId: {{state.currentOrder.orderId}}</ion-title>
                 </ion-toolbar>
 
                 <ion-item lines="none">
-                    <i>{{state.currentOrder.customerId}}</i>
+                    <i>Customerid: {{state.currentOrder.customerId}}</i>
                 </ion-item>
                 <ion-item>
-                    <i>{{state.currentOrder.totalPrice}}</i>
+                  <i> OrderPrice: <i style="color: #2dd36f"> $ {{state.currentOrder.totalPrice}}</i></i>
                 </ion-item>
+              <ion-item>
+                <i>OrderDate: {{state.currentOrder.orderDate}}</i>
+              </ion-item>
 
 
-              <ion-card *ngFor="let order of state.currentOrder.Orders">
-                <ion-grid>
-                  <ion-row>
-                    <ion-col >
-                      <ion-title>BoxId:{{order.boxId}} Amount:{{order.amount}}</ion-title>
-                    </ion-col>
+              <ion-card *ngFor="let order of state.currentOrder.boxOrder">
+                <ion-toolbar>
 
-                  </ion-row>
-                </ion-grid>
+
+                      <ion-text>BoxId:{{order.boxId}} Amount:{{order.amount}}</ion-text>
+
+
+                      <ion-button slot="end" (click)="goToBox(order.boxId)" >
+                        <ion-icon name="open-outline"></ion-icon>
+                      </ion-button>
+
+                </ion-toolbar>
               </ion-card>
 
             </ion-card>
@@ -51,6 +56,12 @@ export class orderDetailPage implements OnInit{
 
   }
 
+
+  goToBox(boxId: number) {
+    this.state.isSearch = false;
+    this.state.isOrder = true;
+    this.router.navigate(['tabs/tabs/detail/'+ boxId])
+  }
 
 
   goBack() {

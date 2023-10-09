@@ -39,7 +39,7 @@ public class BoxController : Controller
     }
     
     [HttpGet]
-    [Route("/box/Seartch")]
+    [Route("/box/Search")]
     public IEnumerable<BoxFeed> SearchArticle([FromQuery][MinLength(3)]String searchTerm, [FromQuery][Range(0,int.MaxValue)]int amount)
     {
         return _service.SearchForBoxes(searchTerm, amount);

@@ -24,7 +24,7 @@ public class CreateOrder
         Helper.TriggerRebuild();
         var order = new Order()
         {
-            orderOId = 1,
+            orderId = 1,
             customerId = 12,
             totalPrice = 50,
 

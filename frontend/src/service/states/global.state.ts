@@ -12,6 +12,7 @@ export class globalState
   currentBox: Box|any = {};
   search: Boxfeed[] = [];
   isSearch: boolean = false;
+  isOrder: boolean = false;
   orderfeed: OrderFeed[] = [];
-  currentOrder: Order|any = [];
+  currentOrder: Order = {};
 }

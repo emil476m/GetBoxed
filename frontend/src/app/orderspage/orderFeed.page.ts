@@ -30,7 +30,7 @@ import {globalState} from "../../service/states/global.state";
                 <ion-title>OrderId:{{order.orderId}}</ion-title>
               </ion-col>
               <ion-col>
-                <ion-text style="color: #2dd36f">Sum$ {{order.price}}</ion-text>
+                <ion-text style="color: #2dd36f">$ {{order.price}}</ion-text>
               </ion-col>
             </ion-row>
           </ion-grid>
