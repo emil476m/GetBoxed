@@ -15,21 +15,3 @@ export interface Box {
     boxImgUrl: string
 }
 
-export interface OrderFeed {
-    orderId: number
-    customerId: number
-    price: number
-}
-
-export interface Order {
-  orderId: number
-  customerId: number
-  price: number
-  orders: Orders[]
-}
-
-export interface Orders {
-  amount: number
-  boxId: number
-}
-

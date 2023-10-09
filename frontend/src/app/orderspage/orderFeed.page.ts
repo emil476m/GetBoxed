@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ModalController, ToastController} from "@ionic/angular";
-import {NewBoxModal} from "../newboxmodal/newboxmodal";
-import {Boxfeed, OrderFeed} from "../boxInterface";
+import {OrderFeed, Order, Orders} from "../orderInterface";
 import {firstValueFrom} from "rxjs";
 import {globalState} from "../../service/states/global.state";
 
@@ -20,7 +19,7 @@ import {globalState} from "../../service/states/global.state";
         <ion-card *ngFor="let order of state.orderfeed">
           <ion-toolbar>
             <ion-buttons slot="end">
-              <ion-button >
+              <ion-button (click)="goToOrder(order.orderId)">
                 <ion-icon name="duplicate-outline"></ion-icon>
               </ion-button>
             </ion-buttons>
@@ -50,6 +49,9 @@ export class OrderFeedPage
     this.getOrderFeed();
   }
 
+  goToOrder(orderId: number) {
+    this.router.navigate(['tabs/tabs/order-detail/'+ orderId])
+  }
 
   private async getOrderFeed() {
     try {

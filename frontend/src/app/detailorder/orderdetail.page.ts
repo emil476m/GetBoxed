@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Box, Boxfeed} from "../boxInterface";
+import {Order, Orders} from "../orderInterface";
 import {firstValueFrom} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {ModalController} from "@ionic/angular";
-import {editBoxModal} from "../EditBoxModal/editboxmodal";
 import {globalState} from "../../service/states/global.state";
 
 @Component({
@@ -19,56 +17,54 @@ import {globalState} from "../../service/states/global.state";
                             <ion-icon name="chevron-back"></ion-icon>
                         </ion-button>
                     </ion-buttons>
-                    <ion-title>{{state.currentOrder}}</ion-title>
+                    <ion-title>{{state.currentOrder.orderId}}</ion-title>
                     <ion-buttons slot="end">
                 </ion-buttons>
                 </ion-toolbar>
-                <img [src]="state.currentBox.boxImgUrl">
 
                 <ion-item lines="none">
-                    <i>{{state.currentBox.description}}</i>
+                    <i>{{state.currentOrder.customerId}}</i>
                 </ion-item>
                 <ion-item>
-                    <i>{{state.currentBox.size}}</i>
+                    <i>{{state.currentOrder.totalPrice}}</i>
                 </ion-item>
-                <ion-item>
-                    <i style="color: #2dd36f">$ {{state.currentBox.price}}</i>
-                </ion-item>
+
+
+              <ion-card *ngFor="let order of state.currentOrder.Orders">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col >
+                      <ion-title>BoxId:{{order.boxId}} Amount:{{order.amount}}</ion-title>
+                    </ion-col>
+
+                  </ion-row>
+                </ion-grid>
+              </ion-card>
+
             </ion-card>
           </ion-content>
         `,
 })
 export class orderDetailPage implements OnInit{
 
-  constructor(public router: Router, public route: ActivatedRoute, private http: HttpClient, private modalcontroller: ModalController, public state: globalState) {
+  constructor(public router: Router, public route: ActivatedRoute, private http: HttpClient, public state: globalState) {
 
   }
 
 
 
   goBack() {
-    this.router.navigate(["tabs/tabs/order"]);
+    this.router.navigate(["tabs/tabs/orders"]);
   }
 
   ngOnInit(): void {
-    this.getBox()
+    this.getOrder()
   }
 
-  private async getBox() {
+  private async getOrder() {
     const id = (await firstValueFrom(this.route.paramMap)).get('id');
-    const call = this.http.get<Box>("http://localhost:5000/order/"+id);
-    const result = await firstValueFrom<Box>(call);
-    this.state.currentBox = result
-  }
-
-  openEdit() {
-    this.modalcontroller.create({
-      component: editBoxModal,
-      componentProps: {
-        copyOfBox: {...this.state.currentBox}
-      }
-    }).then(res => {
-      res.present();
-    })
+    const call = this.http.get<Order>("http://localhost:5000/Order/"+id);
+    const result = await firstValueFrom<Order>(call);
+    this.state.currentOrder = result
   }
 }

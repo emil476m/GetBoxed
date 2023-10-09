@@ -5,6 +5,7 @@ import {BoxFeedPage} from "../boxfeed/boxFeed.page";
 import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
 import {OrderFeedPage} from "../orderspage/orderFeed.page";
+import {orderDetailPage} from "../detailorder/orderdetail.page";
 
 const routes: Route[] = [
   {
@@ -25,6 +26,10 @@ const routes: Route[] = [
           {
             path: `orders`,
             component: OrderFeedPage
+          },
+          {
+            path: `order-detail/:id`,
+            component: orderDetailPage,
           },
           {
             path: `detail/:id`,
