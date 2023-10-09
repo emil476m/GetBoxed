@@ -51,6 +51,7 @@ public class OrderFeed
     public int orderId { get; set; }
     public int customerId { get; set; }
     public float price { get; set; }
+    public DateTime orderDate { get; set; }
     
 }
 
@@ -59,6 +60,8 @@ public class Order
     public int orderOId { get; set; }
     public int customerId { get; set; }
     public float totalPrice { get; set; }
+
+    public DateTime orderDate { get; set; }
     public List<Orders> BoxOrder { get; set; }
 }
 

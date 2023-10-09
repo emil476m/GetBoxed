@@ -44,40 +44,12 @@ public class BoxController : Controller
     {
         return _service.SearchForBoxes(searchTerm, amount);
     }
-    
-    [HttpGet]
-    [Route("/Order")]
-    public IEnumerable<OrderFeed> GetAllOrders()
-    {
-        return _service.getAllOrders();
-    }
-    
-    [HttpGet]
-    [Route("/Order/Customer/{customerId}")]
-    public IEnumerable<Order> GetOrderByCostomerId([FromRoute] int customerId)
-    {
-        return _service.getAllOrdersByCustomerId(customerId);
-    }
-    
-    [HttpGet]
-    [Route("/Order/{orderId}")]
-    public Order GetOrderById([FromRoute] int orderId)
-    {
-        return _service.getOrderById(orderId);
-    }
 
     [HttpPost]
     [Route("/box")]
     public Box CreateBox([FromBody] Box box)
     {
         return _service.CreateBox(box.name,box.size,box.description,box.price,box.boxImgUrl);
-    }
-
-    [HttpPost]
-    [Route("/order")]
-    public Order CreateOrder([FromBodyAttribute] Order order)
-    {
-        return _service.createOrder(order.customerId,order.totalPrice, order.BoxOrder);
     }
 
     [HttpPut]

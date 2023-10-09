@@ -1,9 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {AlertController, ModalController} from "@ionic/angular";
+import {AlertController, ModalController, ToastController} from "@ionic/angular";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Box} from "../boxInterface";
+import {Box, Boxfeed} from "../boxInterface";
+import {globalState} from "../../service/states/global.state";
+import {firstValueFrom} from "rxjs";
+
 
 @Component({
   selector: 'app-editbox-modal',
@@ -58,7 +61,7 @@ import {Box} from "../boxInterface";
 
 
 
-          <ion-button expand="full" type="submit" [disabled]="BoxGroup.invalid">Update Box</ion-button>
+          <ion-button expand="full" type="submit" (click)="updateBox()" [disabled]="BoxGroup.invalid">Update Box</ion-button>
       </ion-content>
     `,
 })
@@ -68,13 +71,24 @@ export class editBoxModal implements OnInit
 
     BName = new FormControl("", [Validators.required,Validators.minLength(3),Validators.maxLength(100)]);
     BSize = new FormControl("",[Validators.required,Validators.minLength(6),Validators.maxLength(50)]);
-    BPrice = new FormControl("",[Validators.required]);
+    BPrice = new FormControl(0,[Validators.required]);
     BImage = new FormControl("", [Validators.required]);
     BDesc = new FormControl("",[Validators.required]);
+    BId = new FormControl (0,[ Validators.required])
 
+   boxFeedgroup = new FormGroup(
+       {
+           boxId: this.BId,
+           name: this.BName,
+           size: this.BSize,
+           price: this.BPrice,
+           boxImgUrl: this.BImage
+       }
+   )
 
     BoxGroup = new FormGroup(
       {
+          boxId: this.BId,
           name: this.BName,
           size: this.BSize,
           description: this.BDesc,
@@ -84,7 +98,7 @@ export class editBoxModal implements OnInit
       });
 
 
-  constructor(private modalController: ModalController, private http: HttpClient, private alertcontroller: AlertController) {
+  constructor(private modalController: ModalController, private http: HttpClient, private alertcontroller: AlertController, public state: globalState, public router: Router, public toastcontrol: ToastController) {
   }
 
   dismissModal() {
@@ -96,7 +110,7 @@ export class editBoxModal implements OnInit
       name: this.copyOfBox.name,
       size: this.copyOfBox.size,
       description: this.copyOfBox.description,
-      price: this.copyOfBox.price.toString(),
+      price: this.copyOfBox.price,
       boxImgUrl: this.copyOfBox.boxImgUrl
     })
   }
@@ -111,7 +125,23 @@ export class editBoxModal implements OnInit
         },
         {
           role: "confirm",
-          text: "yes"
+          text: "yes",
+          handler: async () => {
+            const call = this.http.delete("http://localhost:5000/box/" + this.state.currentBox.boxId);
+            const result = await firstValueFrom(call);
+            this.state.boxfeed = this.state.boxfeed.filter(e => e.boxId != this.copyOfBox.boxId);
+            this.state.currentBox = {}
+            this.router.navigate(["tabs/tabs/boxfeed"]);
+            this.toastcontrol.create({
+              color: "success",
+              message: this.copyOfBox.name + ' successfully deleted.',
+              duration: 2000,
+            }).then(res =>
+            {
+              res.present();
+            })
+            this.dismissModal();
+          }
         }
       ]
     }).then(res =>
@@ -119,4 +149,24 @@ export class editBoxModal implements OnInit
       res.present();
     })
   }
+
+ async updateBox() {
+     const call = this.http.put("http://localhost:5000/box/" + this.copyOfBox.boxId, this.BoxGroup.value);
+     const result = await firstValueFrom(call);
+     let index = this.state.boxfeed.findIndex(b => b.boxId == this.copyOfBox.boxId)
+
+     this.state.boxfeed[index] = this.boxFeedgroup.getRawValue() as Boxfeed;
+     this.state.currentBox = this.BoxGroup.getRawValue() as Box;
+
+     this.router.navigate(["tabs/tabs/boxfeed"]);
+     this.toastcontrol.create({
+         color: "success",
+         message: this.copyOfBox.name + ' successfully updated.',
+         duration: 2000,
+     }).then(res => {
+         res.present();
+     })
+     this.dismissModal();
+ }
+
 }

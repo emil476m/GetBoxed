@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {NavigationStart, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ModalController} from "@ionic/angular";
 import {globalState} from "../../service/states/global.state";
 import {FormControl, Validators} from "@angular/forms";
 import {Boxfeed} from "../boxInterface";
 import {firstValueFrom} from "rxjs";
+import {call} from "ionicons/icons";
 
 @Component({
   selector: 'app-boxfeed',
@@ -44,6 +45,12 @@ export class SearchPage
   pageSize = new FormControl("5",[Validators.required]);
 
     constructor(public state: globalState, public http: HttpClient, public router: Router) {
+      this.router.events.subscribe(event =>    {
+        if(event instanceof NavigationStart) {
+          this.searchTerm.setValue('')
+          this.state.search = []
+        }
+      })
     }
 
     async getBoxes() {
@@ -61,5 +68,9 @@ export class SearchPage
   {
       this.state.isSearch = true;
       this.router.navigate(['tabs/tabs/detail/'+ boxId])
+  }
+
+  ngOnInit(): void {
+    console.log("asd")
   }
 }
