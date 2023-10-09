@@ -70,3 +70,10 @@ public class Orders
     public int amount { get; set; }
     public int boxId { get; set; }
 }
+
+public class graphDataBox
+{
+    public List<int> soldPrMonth { get; set; }
+    public string boxName { get; set; }
+    public int boxid { get; set; }
+}
