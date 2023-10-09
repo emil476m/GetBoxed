@@ -11,6 +11,8 @@ import {NewBoxModal} from "../newboxmodal/newboxmodal";
 import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
 import {editBoxModal} from "../EditBoxModal/editboxmodal";
+import {OrderFeedPage} from "../orderspage/orderFeed.page";
+import {orderDetailPage} from "../detailorder/orderdetail.page";
 
 
 
@@ -23,6 +25,6 @@ import {editBoxModal} from "../EditBoxModal/editboxmodal";
         HttpClientModule,
         ReactiveFormsModule
     ],
-  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal]
+  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal, OrderFeedPage, orderDetailPage]
 })
 export class HomePageModule {}

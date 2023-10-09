@@ -54,7 +54,7 @@ export class SearchPage
     }
 
     async getBoxes() {
-      const call = this.http.get<Boxfeed[]>("http://localhost:5000/box/Seartch", {
+      const call = this.http.get<Boxfeed[]>("http://localhost:5000/box/Search", {
         params: {
           searchTerm: this.searchTerm.value!,
           amount: this.pageSize.value!
@@ -67,6 +67,7 @@ export class SearchPage
   goToBox(boxId: number)
   {
       this.state.isSearch = true;
+      this.state.isOrder = false;
       this.router.navigate(['tabs/tabs/detail/'+ boxId])
   }
 

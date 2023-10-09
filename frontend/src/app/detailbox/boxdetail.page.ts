@@ -50,9 +50,12 @@ export class boxDetailPage implements OnInit{
 
 
     goBack() {
-        if(this.state.isSearch === false)
+        if(this.state.isSearch === false && this.state.isOrder === false)
         {
         this.router.navigate(["tabs/tabs/boxfeed"]);
+        }
+        else if (this.state.isOrder === true){
+          this.router.navigate(["tabs/tabs/orders"]);
         }
         else
         {

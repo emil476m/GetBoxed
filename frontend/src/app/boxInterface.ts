@@ -14,3 +14,4 @@ export interface Box {
     price: number
     boxImgUrl: string
 }
+

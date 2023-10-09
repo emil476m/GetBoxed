@@ -57,7 +57,7 @@ public class OrderFeed
 
 public class Order
 {
-    public int orderOId { get; set; }
+    public int orderId { get; set; }
     public int customerId { get; set; }
     public float totalPrice { get; set; }
 

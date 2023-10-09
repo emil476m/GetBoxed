@@ -62,7 +62,7 @@ public class OrderReposetory
     public Order GetOrderById(int orderId)
     {
         var sql1 =
-            $@"SELECT orderid as {nameof(Order.orderOId)},
+            $@"SELECT orderid as {nameof(Order.orderId)},
             pricesum as {nameof(Order.totalPrice)},
             orderDate as {nameof(Order.orderDate)},
             customerid as {nameof(Order.customerId)}
@@ -96,7 +96,7 @@ public class OrderReposetory
     public IEnumerable<Order> GetOrderByCustoemrId(int customerId)
     {
         var sql1 =
-            $@"SELECT orderid as {nameof(Order.orderOId)},
+            $@"SELECT orderid as {nameof(Order.orderId)},
             pricesum as {nameof(Order.totalPrice)},
             orderDate as {nameof(Order.orderDate)},
             orderDate as {nameof(Order.orderDate)},
@@ -118,7 +118,7 @@ public class OrderReposetory
 
                 foreach (var order in customersOrders)
                 {
-                    order.BoxOrder = conn.Query<Orders>(sql2, new { orderId = order.orderOId }) as List<Orders>;
+                    order.BoxOrder = conn.Query<Orders>(sql2, new { orderId = order.orderId }) as List<Orders>;
                 }
 
                 transaction.Commit();
