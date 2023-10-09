@@ -47,7 +47,7 @@ public class SearchBox
             }
         }
 
-        var url = $"http://localhost:5000/box/Seartch?searchTerm={searchterm}&amount={pageSize}";
+        var url = $"http://localhost:5000/box/Search?searchTerm={searchterm}&amount={pageSize}";
         
         HttpResponseMessage response;
         try
@@ -88,7 +88,7 @@ public class SearchBox
         try
         {
             response = await _httpClient.GetAsync(
-                $"http://localhost:5000/box/Seartch?searchTerm={searchterm}&amount={pageSize}");
+                $"http://localhost:5000/box/Search?searchTerm={searchterm}&amount={pageSize}");
             TestContext.WriteLine("THE FULL BODY RESPONSE: " + await response.Content.ReadAsStringAsync());
         }
         catch (Exception e)
