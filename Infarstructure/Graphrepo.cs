@@ -15,7 +15,7 @@ public class Graphrepo
     public List<int> getAllBoxes()
     {
         var sql = $@"SELECT boxid FROM getboxed.box";
-
+        
         using (var conn = _dataSource.OpenConnection())
         {
             return (List<int>)conn.Query<int>(sql);
@@ -28,17 +28,38 @@ public class Graphrepo
 
         using (var conn = _dataSource.OpenConnection())
         {
-            return (List<int>)conn.Query<int>(sql, new {month});
+            return (List<int>)conn.Query<int>(sql, new { month });
         }
     }
 
-    public int getDataToBoxes( int month, List<int> orderIds)
+    public int getDataToBoxes(List<int> orderIds, int boxId)
     {
-        
-        var sql1 = $@"SELECT boxamount as {nameof(Orders.amount)},
-       boxid as {nameof(Orders.boxId)} FROM getboxed.boxorder WHERE orderid = @orderId && boxid = @boxid";
-        
-        
-        throw new NotImplementedException();
+        var sql1 = $@"SELECT boxamount FROM getboxed.boxorder WHERE orderid = @orderId AND boxid = @boxId";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            int boxesSoldPrMonth = 0;
+
+            foreach (var orderId in orderIds)
+            {
+                List<int> amounts = (List<int>)conn.Query<int>(sql1, param: new { orderId, boxId});
+                foreach (var i in amounts)
+                {
+                    boxesSoldPrMonth += i;
+                }
+            }
+
+            return boxesSoldPrMonth;
+        }
+    }
+    
+    public string getboxname(int boxId)
+    {
+        var sql2 = $@"SELECT name FROM getboxed.box WHERE boxid = @boxid";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QuerySingle<string>(sql2, new { boxId });
+        }
     }
 }

@@ -18,16 +18,21 @@ public class GraphSrevice
         {
             List<graphDataBox> graphdataList = new List<graphDataBox>();
             List<int> boxIds = _repository.getAllBoxes();
-            foreach (var boxes in boxIds)
+            foreach (var box in boxIds)
             {
                 List<int> monthData = new List<int>();
-                for (int i = 1; i <= 12; i++)
+                for (int monthDate = 1; monthDate <= 12; monthDate++)
                 {
-                    List<int> ordersIdinmonth = _repository.getORdersInASpecifikMonth(i);
-                    monthData.Add(_repository.getDataToBoxes(boxes, ordersIdinmonth));    
+                    List<int> ordersIdinmonth = _repository.getORdersInASpecifikMonth(monthDate);
+                    monthData.Add(_repository.getDataToBoxes( ordersIdinmonth, box));   
                 }
 
                 graphDataBox tempbox = new graphDataBox();
+                tempbox.soldPrMonth = monthData;
+                tempbox.boxid = box;
+                tempbox.boxName = _repository.getboxname(box);
+                
+                graphdataList.Add(tempbox);
             }
             return graphdataList;
         }
