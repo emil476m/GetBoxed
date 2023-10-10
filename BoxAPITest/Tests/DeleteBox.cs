@@ -29,10 +29,11 @@ public class DeleteBox
             size = "Mock size",
             description = "mock description",
             price = 1,
-            boxImgUrl = "someurl"
+            boxImgUrl = "someurl",
+            isDeleted = false
         };
         var sql = $@" 
-            insert into getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl);
+            insert into getboxed.box (name, size, description, price, boxImgUrl, isDeleted) VALUES(@name, @size, @description,@price, @boxImgUrl, @isDeleted);
             ";
         using (var conn = Helper.DataSource.OpenConnection())
         {
@@ -56,7 +57,7 @@ public class DeleteBox
         {
             using (var conn = Helper.DataSource.OpenConnection())
             {
-                (conn.ExecuteScalar<int>($"SELECT COUNT(*) FROM getboxed.box WHERE boxid = 1;") == 0)
+                (conn.ExecuteScalar<int>($"SELECT COUNT(*) FROM getboxed.box WHERE boxid = 1 AND isDeleted = false;") == 0)
                     .Should()
                     .BeTrue();
             }

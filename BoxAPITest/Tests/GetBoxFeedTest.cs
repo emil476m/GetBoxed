@@ -32,11 +32,12 @@ public class GetBoxFeed
                 description = "test description",
                 boxId = i,
                 price = i+25*50/3,
-                boxImgUrl = "someurl"
+                boxImgUrl = "someurl",
+                isDeleted = false
             };
             expected.Add(box);
             var sql = $@" 
-            insert into getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl);
+            insert into getboxed.box (name, size, description, price, boxImgUrl, isDeleted) VALUES(@name, @size, @description,@price, @boxImgUrl, @isDeleted);
             ";
             using (var conn = Helper.DataSource.OpenConnection())
             {

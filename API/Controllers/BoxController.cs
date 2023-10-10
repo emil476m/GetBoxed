@@ -65,5 +65,4 @@ public class BoxController : Controller
     {
         return _service.DeleteBoxById(boxId);
     }
-    
 }
