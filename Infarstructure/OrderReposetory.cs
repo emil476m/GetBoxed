@@ -131,4 +131,20 @@ public class OrderReposetory
             }
         }
     }
+    
+    public Customer CreateCustomer(string name, string mail, string tlf, string address)
+    {
+        var sql =
+            $@"INSERT INTO getboxed.customer (name, mail, tlf, address) VALUES(@name, @mail, @tlf,@address) RETURNING 
+        customerId as {nameof(Customer.customerId)}, 
+        name as {nameof(Customer.name)},
+        mail as {nameof(Customer.mail)}, 
+        tlf as {nameof(Customer.tlf)}, 
+        address as {nameof(Customer.address)};";
+
+        using (var conn = _dataSource.OpenConnection())
+        {
+            return conn.QueryFirst<Customer>(sql, new { name, mail, tlf, address});
+        }
+    }
 }

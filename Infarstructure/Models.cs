@@ -44,6 +44,8 @@ public class Box
     public float price { get; set; }
     
     public string boxImgUrl { get; set; }
+    
+    public bool isDeleted { get; set; }
 }
 
 public class OrderFeed
@@ -69,4 +71,13 @@ public class Orders
 {
     public int amount { get; set; }
     public int boxId { get; set; }
+}
+
+public class Customer
+{
+    public int customerId { get; set; }
+    public string name { get; set; }
+    public string mail { get; set; }
+    public string tlf { get; set; }
+    public string address { get; set; }
 }

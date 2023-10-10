@@ -31,10 +31,11 @@ public class UpdateBox
             size = "Mock size",
             description = "mock description",
             price = 1,
-            boxImgUrl = "someurl"
+            boxImgUrl = "someurl",
+            isDeleted = false
         };
         var sql = $@" 
-            insert into getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl);
+            insert into getboxed.box (name, size, description, price, boxImgUrl, isDeleted) VALUES(@name, @size, @description,@price, @boxImgUrl, @isDeleted);
             ";
         using (var conn = Helper.DataSource.OpenConnection())
         {

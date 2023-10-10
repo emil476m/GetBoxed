@@ -35,11 +35,12 @@ public class SearchBox
                 size = new Faker().Random.Words(2),
                 description = new Faker().Random.Words(10),
                 price = 1,
-                boxImgUrl = new Faker().Random.Word()
+                boxImgUrl = new Faker().Random.Word(),
+                isDeleted = false
             };
             expected.Add(box);
             var sql = $@" 
-            insert into getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl);
+            insert into getboxed.box (name, size, description, price, boxImgUrl, isDeleted) VALUES(@name, @size, @description,@price, @boxImgUrl, @IsDeleted);
             ";
             using (var conn = Helper.DataSource.OpenConnection())
             {
@@ -82,7 +83,7 @@ public class SearchBox
 
     [TestCase("qq", 5)]
     [TestCase("dsklfj", -5)]
-    public async Task ArticleSearchFailBecauseOfDataValidation(string searchterm, int pageSize)
+    public async Task BoxSearchFailBecauseOfDataValidation(string searchterm, int pageSize)
     {
         HttpResponseMessage response;
         try

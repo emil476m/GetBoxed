@@ -34,6 +34,8 @@ public class CreateBox
             price = 0,
     
             boxImgUrl = "picture of a box",
+            
+            isDeleted = false,
         };
 
         var url = "http://localhost:5000/box";
@@ -87,7 +89,8 @@ public class CreateBox
             description = description,
             boxId = 1,
             price = price,
-            boxImgUrl = boxImgUrl
+            boxImgUrl = boxImgUrl,
+            isDeleted = false
         };
 
         HttpResponseMessage response;

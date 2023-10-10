@@ -15,13 +15,14 @@ public class Repository
     public Box CreateBox(string name, string size, string description, float price, string boxImgUrl)
     {
         var sql =
-            $@"INSERT INTO getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl) RETURNING 
+            $@"INSERT INTO getboxed.box (name, size, description, price, boxImgUrl, isDeleted) VALUES(@name, @size, @description,@price, @boxImgUrl, false) RETURNING 
         boxid as {nameof(Box.boxId)}, 
         name as {nameof(Box.name)},
         size as {nameof(Box.size)}, 
         description as {nameof(Box.description)}, 
-        price as {nameof(Box.price)}, 
-        boximgurl as {nameof(Box.boxImgUrl)};";
+        price as {nameof(Box.price)},
+        boximgurl as {nameof(Box.boxImgUrl)}, 
+        isDeleted as {nameof(Box.isDeleted)};";
 
         using (var conn = _dataSource.OpenConnection())
         {
@@ -36,7 +37,7 @@ public class Repository
         name as {nameof(BoxFeed.name)},
         size as {nameof(BoxFeed.size)}, 
         price as {nameof(BoxFeed.price)}, 
-        boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM getboxed.box";
+        boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM getboxed.box WHERE isDeleted = false";
 
         using (var conn = _dataSource.OpenConnection())
         {
@@ -46,7 +47,7 @@ public class Repository
 
     public bool DeleteBox(int boxId)
     {
-        var sql = $@"DELETE FROM getboxed.box WHERE boxid = (@boxId);";
+        var sql = @$"UPDATE getboxed.box SET isDeleted = true WHERE boxid = @boxId";
 
         using (var conn = _dataSource.OpenConnection())
         {
@@ -81,8 +82,8 @@ public class Repository
             price as {nameof(BoxFeed.price)}, 
             boximgurl as {nameof(BoxFeed.boxImgUrl)} FROM getboxed.box
             
-            WHERE name LIKE @searchTerm
-            LIMIT @amount
+            WHERE name LIKE @searchTerm AND isDeleted = false
+            LIMIT @amount 
             ;";
 
         using (var conn = _dataSource.OpenConnection())

@@ -16,7 +16,6 @@ public class Utilities
         if (rawConnectionString == null)
         {
             throw new Exception($@"
-🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨
 YOUR CONN STRING {envVarKeyName} IS EMPTY.
 ");
         }
