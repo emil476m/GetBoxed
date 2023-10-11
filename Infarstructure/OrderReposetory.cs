@@ -28,10 +28,10 @@ public class OrderReposetory
         }
     }
 
-    public int CreateOrder(int orderCustomerId, DateTime orderDate, float orderTotalPrice, List<Orders> orderBoxOrder)//boxId, qty)
+    public int CreateOrder(int orderCustomerId, float orderTotalPrice, List<Orders> orderBoxOrder)//boxId, qty)
     {
         var sql =
-            $@"INSERT INTO getboxed.orderlist (customerid, pricesum, orderDate) VALUES(@orderCustomerId, @orderTotalPrice, @orderDate) RETURNING orderid; ";
+            $@"INSERT INTO getboxed.orderlist (customerid, pricesum, orderDate) VALUES(@orderCustomerId, @orderTotalPrice, NOW()) RETURNING orderid; ";
 
         var sql2 =
             $@"INSERT INTO getboxed.boxorder (orderid,boxid,boxamount) VALUES(@orderId, @orderBoxId,@OrderboxAmount )";
@@ -41,7 +41,7 @@ public class OrderReposetory
             var transaction = conn.BeginTransaction();
             try
             {
-                int orderId = conn.QueryFirst<int>(sql, new { orderCustomerId, orderTotalPrice, orderDate});
+                int orderId = conn.QueryFirst<int>(sql, new { orderCustomerId, orderTotalPrice});
 
                 foreach (var item in orderBoxOrder)
                 {
