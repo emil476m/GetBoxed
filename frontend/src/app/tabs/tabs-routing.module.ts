@@ -6,6 +6,7 @@ import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
 import {OrderFeedPage} from "../orderspage/orderFeed.page";
 import {orderDetailPage} from "../detailorder/orderdetail.page";
+import {graphModels} from "../GraphModel/graphModels";
 
 const routes: Route[] = [
   {
@@ -34,6 +35,10 @@ const routes: Route[] = [
           {
             path: `detail/:id`,
             component: boxDetailPage,
+          },
+          {
+            path: 'graphs',
+            component: graphModels,
           },
           {
             path: '',
