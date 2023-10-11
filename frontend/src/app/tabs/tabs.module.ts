@@ -13,6 +13,9 @@ import {boxDetailPage} from "../detailbox/boxdetail.page";
 import {editBoxModal} from "../EditBoxModal/editboxmodal";
 import {OrderFeedPage} from "../orderspage/orderFeed.page";
 import {orderDetailPage} from "../detailorder/orderdetail.page";
+import {CartPage} from "../cart/cart.page";
+import {graphModels} from "../GraphModel/graphModels";
+import {NgChartsModule} from "ng2-charts";
 
 
 
@@ -23,8 +26,9 @@ import {orderDetailPage} from "../detailorder/orderdetail.page";
         IonicModule,
         HomePageRoutingModule,
         HttpClientModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgChartsModule,
     ],
-  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal, OrderFeedPage, orderDetailPage]
+  declarations: [TabsPage,BoxFeedPage,NewBoxModal,SearchPage,boxDetailPage,editBoxModal, graphModels, OrderFeedPage, orderDetailPage, CartPage]
 })
 export class HomePageModule {}

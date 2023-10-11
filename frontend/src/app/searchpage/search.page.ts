@@ -16,16 +16,16 @@ import {call} from "ionicons/icons";
           <ion-toolbar>
             <ion-title align="center">Get Boxed LLC</ion-title>
             <div slot="end">
-              <ion-input [formControl]="pageSize" type="number">Max number of results</ion-input>
+              <ion-input data-testid="pagesize_" [formControl]="pageSize" type="number">Max number of results</ion-input>
             </div>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding" [fullscreen]="true">
-          <ion-card *ngFor="let box of state.search">
+          <ion-card *ngFor="let box of state.search" [attr.data-testid]="'card_ ' + box.name">
             <ion-toolbar>
               <ion-title>{{box.name}}</ion-title>
               <ion-buttons slot="end">
-                <ion-button (click)="goToBox(box.boxId)">
+                <ion-button (click)="goToBox(box.boxId)" [attr.data-testid]="'detail_ ' + box.name">
                   <ion-icon name="open-outline"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -33,9 +33,10 @@ import {call} from "ionicons/icons";
             <ion-text style="color: #2dd36f">$ {{box.price}}</ion-text>
             <ion-img [src]="box.boxImgUrl" style="width: auto; height: 200px;"/>
           </ion-card>
+          <div *ngIf="searchTerm.touched && state.search.length === 0" align="center">no items found with the search term {{searchTerm.value}} </div>
         </ion-content>
        <ion-item lines="none">
-           <ion-searchbar animated="true" (ionInput)="getBoxes()" [formControl]="searchTerm" placeholder="Search for boxes"/>
+           <ion-searchbar data-testid="search_" animated="true" (ionInput)="getBoxes()" [formControl]="searchTerm" placeholder="Search for boxes"/>
        </ion-item>
     `,
 })

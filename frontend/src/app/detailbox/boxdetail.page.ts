@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Box, Boxfeed} from "../boxInterface";
+import {cartItem} from "../orderInterface";
 import {firstValueFrom} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ModalController} from "@ionic/angular";
@@ -21,7 +22,7 @@ import {globalState} from "../../service/states/global.state";
                     </ion-buttons>
                     <ion-title>{{state.currentBox.name}}</ion-title>
                     <ion-buttons slot="end">
-                    <ion-button (click)="openEdit()">
+                    <ion-button (click)="openEdit()" data-testid="editbtn_">
                         <ion-icon name="cog"></ion-icon>
                     </ion-button>
                 </ion-buttons>
@@ -36,6 +37,9 @@ import {globalState} from "../../service/states/global.state";
                 </ion-item>
                 <ion-item>
                     <i style="color: #2dd36f">$ {{state.currentBox.price}}</i>
+                    <ion-button slot="end" (click)="addtoCart()">Add to cart
+                    <ion-icon name="cart">
+                    </ion-icon></ion-button>
                 </ion-item>
             </ion-card>
           </ion-content>
@@ -44,7 +48,6 @@ import {globalState} from "../../service/states/global.state";
 export class boxDetailPage implements OnInit{
 
     constructor(public router: Router, public route: ActivatedRoute, private http: HttpClient, private modalcontroller: ModalController, public state: globalState) {
-
     }
 
 
@@ -84,4 +87,26 @@ export class boxDetailPage implements OnInit{
         res.present();
       })
     }
+
+  addtoCart() {
+    let item: cartItem|any=
+      {
+        name: this.state.currentBox.name,
+        boxId: this.state.currentBox.boxId,
+        price: this.state.currentBox.price,
+        amount: 1,
+        boximgurl: this.state.currentBox.boximgurl
+      }
+
+      const checkifexist = this.state.cart.some(value => item.boxId == value.boxId)
+      if(checkifexist)
+      {
+        let index = this.state.cart.findIndex(value => item.boxId == value.boxId)
+        this.state.cart[index].amount++
+      }
+      else
+      {
+      this.state.cart.push(item);
+      }
+  }
 }

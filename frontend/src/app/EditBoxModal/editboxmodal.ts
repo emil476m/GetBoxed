@@ -15,7 +15,7 @@ import {firstValueFrom} from "rxjs";
       <ion-header>
         <ion-toolbar>
           <ion-buttons>
-            <ion-button color="danger" (click)="deleteAlert()">Delete box</ion-button>
+            <ion-button color="danger" (click)="deleteAlert()" data-testid="deletebtn_">Delete box</ion-button>
           </ion-buttons>
           <ion-title>Edit Box</ion-title>
           <ion-buttons slot="end">
@@ -25,31 +25,31 @@ import {firstValueFrom} from "rxjs";
       </ion-header>
       <ion-content>
         <ion-item>
-            <ion-input label="Box Name" labelPlacement="floating"  [formControl]="BName"></ion-input>
+            <ion-input label="Box Name" labelPlacement="floating"  [formControl]="BName" data-testid="boxName_"></ion-input>
             <div *ngIf="BName.invalid && BName.touched" class="error">
               Box name is required
             </div>
         </ion-item>
         <ion-item>
-            <ion-input label="Size" labelPlacement="floating" [formControl]="BSize"></ion-input>
+            <ion-input label="Size" labelPlacement="floating" [formControl]="BSize" data-testid="boxSize_"></ion-input>
             <div *ngIf="BSize.invalid && BSize.touched" class="error">
               Box size is required
             </div>
         </ion-item>
           <ion-item>
-              <ion-input label="Price" labelPlacement="floating" [formControl]="BPrice"></ion-input>
+              <ion-input label="Price" labelPlacement="floating" [formControl]="BPrice" data-testid="boxPrice_"></ion-input>
                 <div *ngIf="BPrice.invalid && BPrice.touched" class="error">
                   Price is required
                 </div>
           </ion-item>
         <ion-item>
-        <ion-input label="Description" labelPlacement="floating" [formControl]="BDesc"></ion-input>
+        <ion-input label="Description" labelPlacement="floating" [formControl]="BDesc" data-testid="boxDesc_"></ion-input>
           <div *ngIf="BDesc.invalid && BDesc.touched" class="error">
             Description is required
           </div>
       </ion-item>
           <ion-item>
-              <ion-input label="Image" labelPlacement="floating" [formControl]="BImage"></ion-input>
+              <ion-input label="Image" labelPlacement="floating" [formControl]="BImage" data-testid="boxImg_"></ion-input>
             <div *ngIf="BImage.invalid && BImage.touched" class="error">
               Image url is required
             </div>
@@ -61,7 +61,7 @@ import {firstValueFrom} from "rxjs";
 
 
 
-          <ion-button expand="full" type="submit" (click)="updateBox()" [disabled]="BoxGroup.invalid">Update Box</ion-button>
+          <ion-button expand="full" type="submit" (click)="updateBox()" [disabled]="BoxGroup.invalid" data-testid="updateboxbtn_">Update Box</ion-button>
       </ion-content>
     `,
 })

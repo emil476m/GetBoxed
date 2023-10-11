@@ -81,3 +81,10 @@ public class Customer
     public string tlf { get; set; }
     public string address { get; set; }
 }
+
+public class graphDataBox
+{
+    public List<int> data { get; set; }
+    public string label { get; set; }
+    public int boxid { get; set; }
+}
