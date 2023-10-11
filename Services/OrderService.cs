@@ -78,5 +78,20 @@ public class OrderService
             Console.ResetColor();
             throw new Exception("An error occurred while fetching orders for customer");
         }
-    }    
+    }  
+    
+    public Customer CreateCustomer(string name, string mail, string tlf, string address)
+    {
+        try
+        {
+            return _repository.CreateCustomer(name, mail, tlf, address);
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(e);
+            Console.ResetColor();
+            throw new Exception("Could not create Customer");
+        }
+    }
 }

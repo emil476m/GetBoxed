@@ -133,6 +133,7 @@ create table if not exists getboxed.box
     description         text,
     price               FLOAT,
     boximgurl           text,
+    isDeleted           boolean,
     constraint boxpk
         primary key (boxid)
 );
@@ -166,18 +167,13 @@ create table if not exists getboxed.boxorder
     boxamount           integer
 );
 INSERT INTO getboxed.customer VALUES (12, 'Benny Smith', 'benny@gmail.com', '+45 12345678', 'spangsbjerg kirkevej 103');
-Insert INTO getboxed.box VALUES (101,'best box', 'X5 ; Y5 ; Z10', 'Best box description', 20, 'img url');
+Insert INTO getboxed.box VALUES (101,'best box', 'X5 ; Y5 ; Z10', 'Best box description', 20, 'img url', false);
 INSERT INTO getboxed.orderlist VALUES (101, 12, 20, '2023-10-05');
 INSERT INTO getboxed.boxorder values (101, 101, 101);
 
  ";
     
     public static string NoResponseMessage = $@"
-🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨
-It looks like you failed to get a response from the API.
-Are you 100% sure the API is already running on localhost port 5000?
-Below is the inner exception.
-Best regards, Alex
-🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨
+failed to get a response from the API.
 ";
 }

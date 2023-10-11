@@ -35,11 +35,12 @@ public class SearchBox
                 size = new Faker().Random.Words(2),
                 description = new Faker().Random.Words(10),
                 price = 1,
-                boxImgUrl = new Faker().Random.Word()
+                boxImgUrl = new Faker().Random.Word(),
+                isDeleted = false
             };
             expected.Add(box);
             var sql = $@" 
-            insert into getboxed.box (name, size, description, price, boxImgUrl) VALUES(@name, @size, @description,@price, @boxImgUrl);
+            insert into getboxed.box (name, size, description, price, boxImgUrl, isDeleted) VALUES(@name, @size, @description,@price, @boxImgUrl, @IsDeleted);
             ";
             using (var conn = Helper.DataSource.OpenConnection())
             {
@@ -47,7 +48,7 @@ public class SearchBox
             }
         }
 
-        var url = $"http://localhost:5000/box/Seartch?searchTerm={searchterm}&amount={pageSize}";
+        var url = $"http://localhost:5000/box/Search?searchTerm={searchterm}&amount={pageSize}";
         
         HttpResponseMessage response;
         try
@@ -82,13 +83,13 @@ public class SearchBox
 
     [TestCase("qq", 5)]
     [TestCase("dsklfj", -5)]
-    public async Task ArticleSearchFailBecauseOfDataValidation(string searchterm, int pageSize)
+    public async Task BoxSearchFailBecauseOfDataValidation(string searchterm, int pageSize)
     {
         HttpResponseMessage response;
         try
         {
             response = await _httpClient.GetAsync(
-                $"http://localhost:5000/box/Seartch?searchTerm={searchterm}&amount={pageSize}");
+                $"http://localhost:5000/box/Search?searchTerm={searchterm}&amount={pageSize}");
             TestContext.WriteLine("THE FULL BODY RESPONSE: " + await response.Content.ReadAsStringAsync());
         }
         catch (Exception e)

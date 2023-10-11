@@ -19,12 +19,12 @@ public class CreateOrder
     }
 
     [Test]
-    public async Task ShouldSuccessfullyCreateBox()
+    public async Task ShouldSuccessfullyCreateOrder()
     {
         Helper.TriggerRebuild();
         var order = new Order()
         {
-            orderOId = 1,
+            orderId = 1,
             customerId = 12,
             totalPrice = 50,
 

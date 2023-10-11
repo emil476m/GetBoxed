@@ -46,4 +46,11 @@ public class OrderController : Controller
         return _service.createOrder(order.customerId,order.totalPrice, order.orderDate,order.BoxOrder);
     }
     
+    [HttpPost]
+    [Route("/customer")]
+    public Customer CreateCustomer([FromBody] Customer customer)
+    {
+        return _service.CreateCustomer(customer.name, customer.mail, customer.tlf, customer.address);
+    }
+    
 }

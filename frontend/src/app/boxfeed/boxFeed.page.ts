@@ -68,6 +68,7 @@ export class BoxFeedPage implements OnInit{
 
     goToBox(boxId: number) {
       this.state.isSearch = false;
+      this.state.isOrder = false;
       this.router.navigate(['tabs/tabs/detail/'+ boxId])
     }
 
