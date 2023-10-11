@@ -28,9 +28,9 @@ public class GraphSrevice
                 }
 
                 graphDataBox tempbox = new graphDataBox();
-                tempbox.soldPrMonth = monthData;
+                tempbox.data = monthData;
                 tempbox.boxid = box;
-                tempbox.boxName = _repository.getboxname(box);
+                tempbox.label = _repository.getboxname(box);
                 
                 graphdataList.Add(tempbox);
             }

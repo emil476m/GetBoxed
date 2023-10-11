@@ -73,7 +73,7 @@ public class Orders
 
 public class graphDataBox
 {
-    public List<int> soldPrMonth { get; set; }
-    public string boxName { get; set; }
+    public List<int> data { get; set; }
+    public string label { get; set; }
     public int boxid { get; set; }
 }
