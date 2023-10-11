@@ -18,11 +18,11 @@ import {globalState} from "../../service/states/global.state";
         </ion-header>
         <ion-content class="ion-padding" [fullscreen]="true">
 
-            <ion-card *ngFor="let box of state.boxfeed">
+            <ion-card *ngFor="let box of state.boxfeed" [attr.data-testid]="'card_ ' + box.name">
                 <ion-toolbar>
                     <ion-title>{{box.name}}</ion-title>
                     <ion-buttons slot="end">
-                        <ion-button (click)="goToBox(box.boxId)">
+                        <ion-button (click)="goToBox(box.boxId)" [attr.data-testid]="'detail_ ' + box.name">
                             <ion-icon name="open-outline"></ion-icon>
                         </ion-button>
                     </ion-buttons>
@@ -39,7 +39,7 @@ import {globalState} from "../../service/states/global.state";
             </ion-card>
 
           <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-          <ion-fab-button (click)="opennewBoxComponent()">
+          <ion-fab-button (click)="opennewBoxComponent()" data-testid="addbtn_">
             <ion-icon name="add"></ion-icon>
           </ion-fab-button>
           </ion-fab>
