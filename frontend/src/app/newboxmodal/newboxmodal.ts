@@ -21,40 +21,40 @@ import {globalState} from "../../service/states/global.state";
       </ion-header>
       <ion-content>
         <ion-item>
-            <ion-input label="Box Name" labelPlacement="floating"  [formControl]="BName"></ion-input>
+            <ion-input label="Box Name" labelPlacement="floating"  [formControl]="BName" data-testid="boxName_"></ion-input>
           <div *ngIf="BName.invalid && BName.touched" class="error">
             Box name is required
           </div>
         </ion-item>
         <ion-item>
-            <ion-input label="Size" labelPlacement="floating" [formControl]="BSize"></ion-input>
+            <ion-input label="Size" labelPlacement="floating" [formControl]="BSize" data-testid="boxSize_"></ion-input>
           <div *ngIf="BSize.invalid && BSize.touched" class="error">
             Box size is required
           </div>
         </ion-item>
           <ion-item>
-              <ion-input label="Price" labelPlacement="floating" [formControl]="BPrice"></ion-input>
+              <ion-input label="Price" labelPlacement="floating" [formControl]="BPrice" data-testid="boxPrice_"></ion-input>
             <div *ngIf="BPrice.invalid && BPrice.touched" class="error">
               Price is required
             </div>
           </ion-item>
         <ion-item>
-        <ion-input label="Description" labelPlacement="floating" [formControl]="BDesc"></ion-input>
+        <ion-input label="Description" labelPlacement="floating" [formControl]="BDesc" data-testid="boxDesc_"></ion-input>
           <div *ngIf="BDesc.invalid && BDesc.touched" class="error">
             Description is required
           </div>
       </ion-item>
           <ion-item>
-              <ion-input label="Image" labelPlacement="floating" [formControl]="BImage"></ion-input>
+              <ion-input label="Image" labelPlacement="floating" [formControl]="BImage" data-testid="boxImg_"></ion-input>
             <div *ngIf="BImage.invalid && BImage.touched" class="error">
               Image url is required
             </div>
           </ion-item>
         <ion-item *ngIf="BImage.value">
           <ion-label>Image preview</ion-label>
-        <div><img style="max-height: 100px; width: auto;" [src]="this.BImage.value" ></div>
+        <div><img style="max-height: 100px; width: auto;" [src]="this.BImage.value"></div>
         </ion-item>
-          <ion-button expand="full" type="submit" [disabled]="BoxGroup.invalid" (click)="createbox()">Create Box</ion-button>
+          <ion-button expand="full" type="submit" [disabled]="BoxGroup.invalid" (click)="createbox()" data-testid="addboxbtn_">Create Box</ion-button>
       </ion-content>
     `,
 })
@@ -104,13 +104,12 @@ export class NewBoxModal
     {
       this.toastControl.create(
         {
-          color: "success",
+          color: "warning",
           duration: 2000,
-          message: "Success"
+          message: "failed to create box"
         }
       ).then(res =>{
         res.present();
-
       })
 
     }

@@ -6,6 +6,7 @@ import {SearchPage} from "../searchpage/search.page";
 import {boxDetailPage} from "../detailbox/boxdetail.page";
 import {OrderFeedPage} from "../orderspage/orderFeed.page";
 import {orderDetailPage} from "../detailorder/orderdetail.page";
+import {CartPage} from "../cart/cart.page";
 import {graphModels} from "../GraphModel/graphModels";
 
 const routes: Route[] = [
@@ -39,6 +40,10 @@ const routes: Route[] = [
           {
             path: 'graphs',
             component: graphModels,
+          },
+          {
+            path: 'cart',
+            component: CartPage,
           },
           {
             path: '',
