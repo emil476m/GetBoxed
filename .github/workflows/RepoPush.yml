@@ -6,9 +6,9 @@ name: YAML for testing on git
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [ "playwrighttests-actions" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "playwrighttests-actions" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -45,12 +45,31 @@ jobs:
         run: npm i
 
       #Runs the api and the test, once finished it wil terminate the api so the proces can finish
-      - name: Run the APITest
-        run: cd API && dotnet run & (sleep 20 && cd BoxAPITest && dotnet test && kill -9 $(lsof -t -i:5000))
-        env:
-          pgconn: ${{secrets.pgconn}}
+      - name: Install e2e test dependencies
+        working-directory: ./tests/e2e
+        run: npm i && npx playwright install
 
-      - name: Run the PlaywrightTest
-        run: cd frontend && ng build & (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps && dotnet test  && kill -9 $(lsof -t -i:5000)))
+      - name: Build
+        run: dotnet build
+        working-directory: ./api
+
+      - name: Build frontend
+        run: ng build --base-href=/app
+        working-directory: ./frontend
+
+      - name: Make scripts executable
+        working-directory: ./shell_scripts
+        run: chmod +x ./wait-for-it.sh run-all-api-tests.sh
+
+      - name: Start HTTP server
+        working-directory: ./api
+        run: dotnet run &
         env:
-          pgconn: ${{secrets.pgconn}}
+          pgconn: ${{secrets.PGCONN}}
+
+      - name: Run tests
+        working-directory: ./shell_scripts
+        run: |
+          ./wait-for-it.sh -t 60 localhost:5000 &&
+          sh ./run-all-api-tests.sh &&
+          cd ../tests/e2e && npx playwright test
