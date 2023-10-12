@@ -43,11 +43,7 @@ jobs:
         working-directory: ./frontend
         run: npm i
 
-      #Runs the api and the test, once finished it wil terminate the api so the proces can finish
-      - name: Run the APITest
-        run: cd API && dotnet run & (sleep 20 && cd BoxAPITest && dotnet test && kill -9 $(lsof -t -i:5000))
-        env:
-          pgconn: ${{secrets.pgconn}}
+      
 
 
       
@@ -59,6 +55,12 @@ jobs:
 
       - name: Run the PlaywrightTest
         run: (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && (sleep 20 && dotnet test && kill -9 $(lsof -t -i:5000))))
+        env:
+          pgconn: ${{secrets.pgconn}}
+
+      #Runs the api and the test, once finished it wil terminate the api so the proces can finish
+      - name: Run the APITest
+        run: cd API && dotnet run & (sleep 20 && cd BoxAPITest && dotnet test && kill -9 $(lsof -t -i:5000))
         env:
           pgconn: ${{secrets.pgconn}}
 
