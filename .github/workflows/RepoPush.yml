@@ -41,7 +41,7 @@ jobs:
           node-version: '18'
       - name: Install and Angular CLI
         run: npm i -g @angular/cli && cd frontend && npm i && ng build
-      - run: cd api && dotnet build
+      - run: cd API && dotnet build
 
 
       - name: Run the PlaywrightTest
