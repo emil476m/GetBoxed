@@ -119,6 +119,18 @@ public class Tests : PageTest
         await Expect(Page.GetByTestId("card_ "+str)).ToBeVisibleAsync();
         await Expect(Page.GetByTestId("card_ " + boxName)).ToBeHiddenAsync();
     }
-    
-    
+
+    [Test]
+    public async Task searchtest() 
+    {
+        Helper.TriggerRebuild();
+        
+        await Page.GotoAsync("http://localhost:5000/tabs/tabs/boxfeed");
+
+        await Page.GetByTestId("search_").Locator("svg").ClickAsync();
+
+        await Page.GetByLabel("search text").FillAsync("best box");
+
+        Expect(Page.GetByTestId("card_ best box")).ToBeVisibleAsync();
+    }
 }
