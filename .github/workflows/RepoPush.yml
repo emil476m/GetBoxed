@@ -36,6 +36,9 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install newman and Angular CLI
+        run: npm i -g newman @angular/cli
+
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm i
