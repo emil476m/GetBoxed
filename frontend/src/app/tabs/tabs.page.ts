@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
               <ion-tab-button tab="home" routerLink="boxfeed">
                 <ion-icon name="home"></ion-icon>
               </ion-tab-button>
-              <ion-tab-button tab="search" routerLink="search">
+              <ion-tab-button tab="search" routerLink="search" data-testid="search_">
                 <ion-icon name="search"></ion-icon>
               </ion-tab-button>
               <ion-tab-button tab="cart" routerLink="cart">

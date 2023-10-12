@@ -78,10 +78,11 @@ export class boxDetailPage implements OnInit{
     }
 
     openEdit() {
+
       this.modalcontroller.create({
         component: editBoxModal,
         componentProps: {
-          copyOfBox: {...this.state.currentBox}
+         // copyOfBox: {...this.state.currentBox}
         }
       }).then(res => {
         res.present();
