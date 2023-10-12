@@ -46,12 +46,12 @@ jobs:
 
       #Runs the api and the test, once finished it wil terminate the api so the proces can finish
       - name: Install e2e test dependencies
-        working-directory: ./tests/e2e
+        working-directory: ./PlaywrightTests
         run: npm i && npx playwright install
 
       - name: Build
         run: dotnet build
-        working-directory: ./api
+        working-directory: ./API
 
       - name: Build frontend
         run: ng build --base-href=/app
@@ -62,7 +62,7 @@ jobs:
         run: chmod +x ./wait-for-it.sh run-all-api-tests.sh
 
       - name: Start HTTP server
-        working-directory: ./api
+        working-directory: ./API
         run: dotnet run &
         env:
           pgconn: ${{secrets.PGCONN}}
