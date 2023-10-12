@@ -31,27 +31,17 @@ jobs:
         with:
           dotnet-version: |
             8.0.x
+      - name: install browsers
+        run: echo $PWD && ls && cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+        
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - name: Install and Angular CLI
+        run: npm i -g @angular/cli && cd frontend && npm i && ng build
+      - run: cd api && dotnet build
 
-      - name: Install newman and Angular CLI
-        run: npm i -g newman @angular/cli
-
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm i
-
-      
-
-
-      
-      - run: dotnet build
-      - run: cd frontend && ng build
-      - name: install browsers
-        run: cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
-        
 
       - name: Run the PlaywrightTest
         run: (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && (sleep 20 && dotnet test && kill -9 $(lsof -t -i:5000))))
