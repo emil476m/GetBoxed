@@ -43,6 +43,9 @@ jobs:
       - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm i
+        
+      - name: Install playwright
+        run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps 
 
       #Runs the api and the test, once finished it wil terminate the api so the proces can finish
       - name: Run the APITest
@@ -51,6 +54,6 @@ jobs:
           pgconn: ${{secrets.pgconn}}
 
       - name: Run the PlaywrightTest
-        run: cd frontend && ng build & (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps && (sleep 20 && dotnet test && kill -9 $(lsof -t -i:5000))))
+        run: cd frontend && ng build & (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && dotnet restore && (sleep 20 && dotnet test && kill -9 $(lsof -t -i:5000))))
         env:
           pgconn: ${{secrets.pgconn}}
