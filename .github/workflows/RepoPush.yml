@@ -1,12 +1,13 @@
 # This is a basic workflow to help you get started with Actions
 
+
 name: YAML for testing on git
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [ "main", "playwrighttests" ]
   pull_request:
     branches: [ "main" ]
 
@@ -31,21 +32,22 @@ jobs:
         with:
           dotnet-version: |
             8.0.x
-
+      - name: install browsers
+        run: echo $PWD && ls && cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+        
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+      - name: Install and Angular CLI
+        run: npm i -g @angular/cli && cd frontend && npm i && ng build
+      - run: cd api && dotnet build
 
-      - name: Install newman and Angular CLI
-        run: npm i -g newman @angular/cli
 
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm ci
-        
-      - name: Install playwright
-        run: pwsh bin/Debug/net8.0/playwright.ps1 install 
+      - name: Run the PlaywrightTest
+        run: (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && (sleep 20 && dotnet test && kill -9 $(lsof -t -i:5000))))
+        env:
+          pgconn: ${{secrets.pgconn}}
 
       #Runs the api and the test, once finished it wil terminate the api so the proces can finish
       - name: Run the APITest
@@ -53,7 +55,3 @@ jobs:
         env:
           pgconn: ${{secrets.pgconn}}
 
-      - name: Run the PlaywrightTest
-        run: cd frontend && ng build & (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && dotnet restore && (sleep 20 && dotnet test && kill -9 $(lsof -t -i:5000))))
-        env:
-          pgconn: ${{secrets.pgconn}}
