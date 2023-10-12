@@ -43,7 +43,7 @@ public class OrderController : Controller
     [Route("/order")]
     public Order CreateOrder([FromBodyAttribute] Order order)
     {
-        return _service.createOrder(order.customerId,order.totalPrice, order.orderDate,order.BoxOrder);
+        return _service.createOrder(order.customerId,order.totalPrice, order.BoxOrder);
     }
     
     [HttpPost]

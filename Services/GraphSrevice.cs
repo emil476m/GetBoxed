@@ -24,7 +24,7 @@ public class GraphSrevice
                 {
                     List<int> ordersIdinmonth = _repository.getORdersInASpecifikMonth(monthDate);
 
-                   if (ordersIdinmonth.Count != 0) {
+                   if (ordersIdinmonth.Count >= 0) {
                         monthData.Add(_repository.getDataToBoxes( ordersIdinmonth, box));
                     } else {
                        monthData.Add(0);

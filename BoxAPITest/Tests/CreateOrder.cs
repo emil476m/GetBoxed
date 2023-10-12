@@ -28,7 +28,9 @@ public class CreateOrder
             customerId = 12,
             totalPrice = 50,
 
-            orderDate = new DateTime(2023, 10, 1),
+            //orderDate = new DateTime(2023, 10, 1),
+            orderDate = DateTime.Today,
+
 
             BoxOrder = new List<Orders>()
         };
