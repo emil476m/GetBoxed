@@ -31,7 +31,18 @@ jobs:
         with:
           dotnet-version: |
             8.0.x
-      
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install newman and Angular CLI
+        run: npm i -g newman @angular/cli
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm i
 
       #Runs the api and the test, once finished it wil terminate the api so the proces can finish
       - name: Run the APITest
@@ -40,6 +51,6 @@ jobs:
           pgconn: ${{secrets.pgconn}}
 
       - name: Run the PlaywrightTest
-        run: cd frontend && ng build & (sleep 20 cd API && dotnet run & (sleep 20 && cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps && dotnet test  && kill -9 $(lsof -t -i:5000)))
+        run: cd frontend && ng build & (sleep 20 && cd API && dotnet run & (sleep 20 && cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps && dotnet test  && kill -9 $(lsof -t -i:5000)))
         env:
           pgconn: ${{secrets.pgconn}}
