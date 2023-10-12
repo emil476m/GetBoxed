@@ -42,10 +42,10 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: ./frontend
-        run: npm i
+        run: npm ci
         
       - name: Install playwright
-        run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps 
+        run: pwsh bin/Debug/net8.0/playwright.ps1 install 
 
       #Runs the api and the test, once finished it wil terminate the api so the proces can finish
       - name: Run the APITest
