@@ -67,7 +67,8 @@ import {firstValueFrom} from "rxjs";
 })
 export class editBoxModal implements OnInit
 {
-  @Input() copyOfBox!: Box;
+ // @Input() copyOfBox!: Box;
+  copyOfBox: Box;
 
     BName = new FormControl("", [Validators.required,Validators.minLength(3),Validators.maxLength(100)]);
     BSize = new FormControl("",[Validators.required,Validators.minLength(6),Validators.maxLength(50)]);
@@ -99,7 +100,9 @@ export class editBoxModal implements OnInit
 
 
   constructor(private modalController: ModalController, private http: HttpClient, private alertcontroller: AlertController, public state: globalState, public router: Router, public toastcontrol: ToastController) {
-  }
+
+
+ this.copyOfBox = this.state.currentBox; }
 
   dismissModal() {
     this.modalController.dismiss();
@@ -107,11 +110,15 @@ export class editBoxModal implements OnInit
 
   ngOnInit(): void {
     this.BoxGroup.patchValue({
+      boxId: this.copyOfBox.boxId,
       name: this.copyOfBox.name,
       size: this.copyOfBox.size,
       description: this.copyOfBox.description,
       price: this.copyOfBox.price,
       boxImgUrl: this.copyOfBox.boxImgUrl
+    })
+    this.boxFeedgroup.patchValue({
+      boxId: this.copyOfBox.boxId
     })
   }
 

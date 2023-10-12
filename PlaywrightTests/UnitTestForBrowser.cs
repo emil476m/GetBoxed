@@ -1,5 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Dapper;
+using Infarstructure;
 using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
@@ -14,6 +16,12 @@ namespace PlaywrightTests;
 
 public class Tests : PageTest
 {
+    private HttpClient _httpClient;
+    [SetUp]
+    public void Setup()
+    {
+        _httpClient = new HttpClient();
+    }
     
     [Test]
     public async Task TestCreateBox()
@@ -49,31 +57,68 @@ public class Tests : PageTest
         await Expect(Page.GetByText("$ 60")).ToBeVisibleAsync();
     }
     
-    /*[Test]
+    
+    
+    [Test]
     public async Task TestEditBox()
     {
         Helper.TriggerRebuild();
+
+        var boxName = "BoxTobeUpdated";
         
+        var box = new Box()
+        {
+            boxId = 1,
+            name = boxName,
+            size = "Mock size",
+            description = "mock description",
+            price = 1,
+            boxImgUrl = "someurl",
+            isDeleted = false
+        };
+        var sql = $@" 
+            insert into getboxed.box (name, size, description, price, boxImgUrl, isDeleted) VALUES(@name, @size, @description,@price, @boxImgUrl, @isDeleted);
+            ";
+        using (var conn = Helper.DataSource.OpenConnection())
+        {
+            conn.Execute(sql, box);
+        }
+        
+        
+        Page.SetDefaultTimeout(3000);
+        var str = "best boxPlaywrightTestingUpdate";
         await Page.GotoAsync("http://localhost:5000/");
 
-        await Page.GotoAsync("http://localhost:5000/tabs/tabs/boxfeed");
+        //await Page.WaitForTimeoutAsync(5000);
 
-        await Page.Locator("ion-toolbar").Filter(new() { HasText = "best box" }).GetByRole(AriaRole.Button).ClickAsync();
+        await Page.GetByTestId("detail_ "+boxName).GetByRole(AriaRole.Button).ClickAsync();
+        await Page.WaitForTimeoutAsync(5000);
 
-        await Page.GetByRole(AriaRole.Button).Nth(1).ClickAsync();
+        await Page.GetByTestId("editbtn_").GetByRole(AriaRole.Button).ClickAsync();
+       
+        await Page.GetByTestId("boxName_").Locator("input").FillAsync(str);
+        
+        await Page.GetByTestId("boxSize_").Locator("input").FillAsync("X5 ; Y5 ; Z10");
 
-        await Page.GetByLabel("Box Name").ClickAsync();
+        await Page.GetByTestId("boxPrice_").Locator("input").FillAsync("20");
 
-        await Page.GetByLabel("Box Name").FillAsync("best boxTestPlayWright");
+        await Page.GetByTestId("boxDesc_").Locator("input").FillAsync("Best box description");
 
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Update Box" }).ClickAsync();
+        await Page.GetByTestId("boxImg_").Locator("input").FillAsync("img url");
 
-        await Page.Locator("ion-title").Filter(new() { HasText = "best boxTestPlayWright" }).Locator("div").ClickAsync();
-        //make expectations
+        //await Page.WaitForTimeoutAsync(5000);
 
-        await Expect(Page.GetByText("PlaywrightTestingBox69")).ToBeVisibleAsync();
-        await Expect(Page.GetByText("$ 60")).ToBeVisibleAsync();
-    }*/
+       await Page.GetByText("Update Box").ClickAsync();
+       await Page.WaitForTimeoutAsync(3000);
+       
+       //await Page.GetByRole(AriaRole.Button, new() { Name = "Update Box" }).ClickAsync();
+       
+
+       // make expectations
+       
+        await Expect(Page.GetByTestId("card_ "+str)).ToBeVisibleAsync();
+        await Expect(Page.GetByTestId("card_ " + boxName)).ToBeHiddenAsync();
+    }
     
     
 }
