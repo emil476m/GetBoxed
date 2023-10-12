@@ -50,7 +50,7 @@ jobs:
       - run: dotnet build
       - run: cd frontend && ng build
       - name: install browsers
-        run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+        run: cd .. && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
         
 
       - name: Run the PlaywrightTest
