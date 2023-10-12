@@ -39,6 +39,6 @@ jobs:
           pgconn: ${{secrets.pgconn}}
 
       - name: Run the PlaywrightTest
-        run:  cd API && dotnet run && (cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps && dotnet test && kill -9 $(lsof -t -i:5000))
+        run:  cd API && dotnet run & (sleep 20 && cd PlaywrightTests && dotnet build && pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps && dotnet test && kill -9 $(lsof -t -i:5000))
         env:
           pgconn: ${{secrets.pgconn}}
