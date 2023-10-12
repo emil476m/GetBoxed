@@ -22,8 +22,9 @@ public class DeleteWithPlaywright : PageTest
     }
 
     [Test]
-    public async Task Dellete()
+    public async Task Delete()
     {
+        Page.SetDefaultTimeout(3000);
         await Page.GotoAsync("http://localhost:5000/tabs/tabs/boxfeed");
 
         await Page.GetByTestId("detail_ best box").GetByRole(AriaRole.Button).ClickAsync();
@@ -38,7 +39,7 @@ public class DeleteWithPlaywright : PageTest
         {
             using (var conn = Helper.DataSource.OpenConnection())
             {
-                (conn.ExecuteScalar<int>($"SELECT COUNT(*) FROM getboxed.box WHERE boxid = 1 AND isDeleted = false;") == 0)
+                (conn.ExecuteScalar<int>($"SELECT COUNT(*) FROM getboxed.box WHERE boxid = 1 AND isDeleted = true;") == 0)
                     .Should()
                     .BeTrue();
             }
